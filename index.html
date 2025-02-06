@@ -76,19 +76,22 @@
     <script>
         document.getElementById("phishingForm").addEventListener("submit", async function(event) {
             event.preventDefault();
-            const email = document.getElementById("email").value;
-            
-            const response = await fetch("http://phishingservice.net/api/start-phishing-test", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email })
-            });
-            
-            if (response.ok) {
-                alert("Test email sent! Check your inbox.");
-            } else {
-                alert("Error sending test. Try again.");
-            }
+            try {
+    const response = await fetch("http://phishingservice.net/api/start-phishing-test", { 
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data); // Process the response data
+} catch (error) {
+    console.error("Fetch error:", error);
+}
         });
     </script>
 </body>
