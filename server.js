@@ -94,7 +94,3 @@ app.get("/track", (req, res) => {
     // Redirect to a training page or warning page
     res.redirect("https://your-training-page.com");
 });
-
-// Start the Server
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
