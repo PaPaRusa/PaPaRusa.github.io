@@ -81,7 +81,7 @@ app.post("/api/start-phishing-test", async (req, res) => {
     }
 });
 
-// 🎯 Track Who Clicked the Link
+
 app.get("/track", (req, res) => {
     const email = req.query.email;
 
