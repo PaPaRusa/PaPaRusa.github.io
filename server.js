@@ -39,10 +39,12 @@ app.get("/track", (req, res) => {
 });
 
 const transporter = nodemailer.createTransport({
-    service: "smtp.zoho.com",
+    host: "smtp.zoho.com",
+    port: 465,
+    secure: true, 
     auth: {
         user: "no-reply@phishingservice.net",
-        pass: "YJz5Jf63hBQx" // Use the generated App Password
+        pass: "YJz5Jf63hBQx" 
     }
 });
 
