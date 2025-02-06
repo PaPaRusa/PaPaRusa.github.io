@@ -94,3 +94,5 @@ app.get("/track", (req, res) => {
     // Redirect to a training page or warning page
     res.redirect("https://your-training-page.com");
 });
+const PORT = 465;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
