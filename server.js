@@ -7,36 +7,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const adminEmail = "kfirhason342@gmail.com"; // 📩 Change to your email
+const adminEmail = "kfirhason342@gmail.com"; 
 
-app.get("/track", (req, res) => {
-    const email = req.query.email;
-
-    if (email) {
-        const logEntry = `${email} clicked at ${new Date().toISOString()}\n`;
-        fs.appendFileSync("log.txt", logEntry);
-        console.log(logEntry);
-
-        // 📧 Send Notification to Admin
-        const mailOptions = {
-            from: "no-reply@phishingservice.net",
-            to: adminEmail, 
-            subject: "🚨 Phishing Test Alert!",
-            text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error("Error sending notification:", error);
-            } else {
-                console.log("Admin notified:", info.response);
-            }
-        });
-    }
-
-    // Redirect to training page
-    res.redirect("https://your-training-page.com");
-});
 
 const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
@@ -44,16 +16,18 @@ const transporter = nodemailer.createTransport({
     secure: true, 
     auth: {
         user: "no-reply@phishingservice.net",
-        pass: "YJz5Jf63hBQx" 
+        pass: "YOUR_SECURE_APP_PASSWORD" 
     }
 });
 
+
 app.post("/api/start-phishing-test", async (req, res) => {
     const { email } = req.body;
-
+    
     if (!email) {
         return res.status(400).json({ error: "Email is required" });
     }
+
     const trackingUrl = `http://phishingservice.net/track?email=${encodeURIComponent(email)}`;
 
     const mailOptions = {
@@ -72,13 +46,13 @@ app.post("/api/start-phishing-test", async (req, res) => {
             </div>
         `
     };
-    
 
     try {
         await transporter.sendMail(mailOptions);
+        console.log(`Phishing test email sent to: ${email}`);
         res.status(200).json({ message: "Phishing test email sent!" });
     } catch (error) {
-        console.error(error);
+        console.error("Error sending email:", error);
         res.status(500).json({ error: "Failed to send email" });
     }
 });
@@ -91,11 +65,32 @@ app.get("/track", (req, res) => {
         const logEntry = `${email} clicked at ${new Date().toISOString()}\n`;
         fs.appendFileSync("log.txt", logEntry);
         console.log(logEntry);
+
+       
+        const mailOptions = {
+            from: "no-reply@phishingservice.net",
+            to: adminEmail, 
+            subject: "🚨 Phishing Test Alert!",
+            text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error("Error sending notification:", error);
+            } else {
+                console.log("Admin notified:", info.response);
+            }
+        });
     }
 
-    // Redirect to a training page or warning page
+
     res.redirect("https://your-training-page.com");
 });
+
+
+const PORT = 465; 
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
 
 console.log("Received email request for:", email);
 const PORT = 465;
