@@ -78,7 +78,7 @@
             event.preventDefault();
             const email = document.getElementById("email").value;
             
-            const response = await fetch("https://phishingservice.net/api/start-phishing-test", {
+            const response = await fetch("http://phishingservice.net/api/start-phishing-test", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email })
