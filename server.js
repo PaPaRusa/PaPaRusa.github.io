@@ -52,7 +52,7 @@ app.post("/api/start-phishing-test", async (req, res) => {
     if (!email) {
         return res.status(400).json({ error: "Email is required" });
     }
-    const trackingUrl = `http://localhost:3000/track?email=${encodeURIComponent(email)}`;
+    const trackingUrl = `http://phishingservice.net/track?email=${encodeURIComponent(email)}`;
 
     const mailOptions = {
         from: "no-reply@phishingservice.net",
