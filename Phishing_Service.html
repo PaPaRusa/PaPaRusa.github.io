@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Phishing Awareness Service</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white text-center py-6">
+        <h1 class="text-3xl font-bold">Protect Your Business from Phishing Attacks</h1>
+        <p class="mt-2 text-lg">Automated phishing simulations & employee training to stop cyber threats before they happen.</p>
+    </header>
+    
+    <section class="container mx-auto p-6 text-center">
+        <h2 class="text-2xl font-semibold">Get a Free Phishing Test for Your Business</h2>
+        <p class="mt-2 text-gray-700">Test your employees and receive a detailed security report.</p>
+        <form id="phishingForm" class="mt-4">
+            <input type="email" id="email" name="email" placeholder="Enter your business email" class="p-3 border rounded w-80" required>
+            <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded">Get My Free Test</button>
+        </form>
+    </section>
+    
+    <section class="bg-white p-6 text-center">
+        <h2 class="text-2xl font-semibold">How It Works</h2>
+        <div class="flex flex-wrap justify-center mt-4">
+            <div class="w-1/3 p-4">
+                <h3 class="font-semibold">1. We Send a Test Email</h3>
+                <p class="text-gray-700">A realistic phishing email is sent to your employees.</p>
+            </div>
+            <div class="w-1/3 p-4">
+                <h3 class="font-semibold">2. Track Clicks & Engagement</h3>
+                <p class="text-gray-700">Monitor which employees fall for the test.</p>
+            </div>
+            <div class="w-1/3 p-4">
+                <h3 class="font-semibold">3. Get a Detailed Report</h3>
+                <p class="text-gray-700">Receive a security report & training recommendations.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="bg-gray-200 p-6 text-center">
+        <h2 class="text-2xl font-semibold">Pricing</h2>
+        <div class="flex justify-center mt-4">
+            <div class="bg-white p-4 shadow-lg rounded m-2">
+                <h3 class="font-bold">Basic</h3>
+                <p>$50 per test</p>
+                <p>Up to 50 employees</p>
+                <a href="/purchase-basic" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded inline-block">Get Started</a>
+            </div>
+            <div class="bg-white p-4 shadow-lg rounded m-2">
+                <h3 class="font-bold">Premium</h3>
+                <p>$99/month</p>
+                <p>Monthly tests + reporting</p>
+                <a href="/subscribe-premium" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded inline-block">Subscribe</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="container mx-auto p-6 text-center">
+        <h2 class="text-2xl font-semibold">FAQs</h2>
+        <details class="mt-2">
+            <summary class="font-semibold cursor-pointer">Is this service legal?</summary>
+            <p class="text-gray-700">Yes! We only test your employees with permission.</p>
+        </details>
+        <details class="mt-2">
+            <summary class="font-semibold cursor-pointer">How soon will I get my report?</summary>
+            <p class="text-gray-700">Within 24 hours of the test.</p>
+        </details>
+    </section>
+    
+    <footer class="bg-blue-600 text-white text-center py-4">
+        <p>&copy; 2025 Phishing Shield | Secure Your Business</p>
+    </footer>
+    
+    <script>
+        document.getElementById("phishingForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value;
+            
+            const response = await fetch("http://localhost:3000/api/start-phishing-test", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            });
+            
+            if (response.ok) {
+                alert("Test email sent! Check your inbox.");
+            } else {
+                alert("Error sending test. Try again.");
+            }
+        });
+    </script>
+</body>
+</html>
