@@ -20,10 +20,9 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-
 app.post("/api/start-phishing-test", async (req, res) => {
     const { email } = req.body;
-    
+    console.log("Got Request);
     if (!email) {
         return res.status(400).json({ error: "Email is required" });
     }
@@ -87,11 +86,5 @@ app.get("/track", (req, res) => {
     res.redirect("https://your-training-page.com");
 });
 
-
-const PORT = 465; 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
-
-console.log("Received email request for:", email);
 const PORT = 465;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
