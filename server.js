@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
     secure: true, 
     auth: {
         user: "no-reply@phishingservice.net",
-        pass: "YOUR_SECURE_APP_PASSWORD" 
+        pass: "YJz5Jf63hBQx" 
     }
 });
 
