@@ -3,88 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Awareness Test</title>
+    <title>Phishing Test Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
 </head>
 <body class="bg-gray-100">
     <header class="bg-blue-600 text-white text-center py-6">
-        <h1 class="text-3xl font-bold">Protect Your Business from Phishing Attacks</h1>
-        <p class="mt-2 text-lg">Automated phishing simulations & employee training to stop cyber threats before they happen.</p>
+        <h1 class="text-3xl font-bold">Phishing Test Service</h1>
     </header>
 
-    <section class="container mx-auto p-6 text-center">
-        <h2 class="text-2xl font-semibold">Get a Free Phishing Test for Your Business</h2>
-        <p class="mt-2 text-gray-700">Test your employees and receive a detailed security report.</p>
-        <form id="phishingForm" class="mt-4">
-            <input type="email" id="email" name="email" placeholder="Enter your business email" class="p-3 border rounded w-80" required>
-            <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded hover:bg-blue-700">Get My Free Test</button>
+    <section class="container mx-auto p-6">
+        <h2 class="text-2xl font-semibold text-center">Register or Login to Start the Test</h2>
+
+        <!-- Registration Form -->
+        <form id="registerForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-4">
+            <h3 class="text-xl font-semibold mb-2">Register</h3>
+            <input type="email" id="registerEmail" placeholder="Email" class="border p-2 w-full mb-2" required>
+            <input type="password" id="registerPassword" placeholder="Password" class="border p-2 w-full mb-2" required>
+            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Register</button>
         </form>
-        <p id="responseMessage" class="mt-4 text-lg"></p>
-    </section>
 
-    <section class="bg-white p-6 text-center">
-        <h2 class="text-2xl font-semibold">How It Works</h2>
-        <div class="flex flex-wrap justify-center mt-4">
-            <div class="w-1/3 p-4">
-                <h3 class="font-semibold">1. We Send a Test Email</h3>
-                <p class="text-gray-700">A realistic phishing email is sent to your employees.</p>
-            </div>
-            <div class="w-1/3 p-4">
-                <h3 class="font-semibold">2. Track Clicks & Engagement</h3>
-                <p class="text-gray-700">Monitor which employees fall for the test.</p>
-            </div>
-            <div class="w-1/3 p-4">
-                <h3 class="font-semibold">3. Get a Detailed Report</h3>
-                <p class="text-gray-700">Receive a security report & training recommendations.</p>
-            </div>
+        <!-- Login Form -->
+        <form id="loginForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h3 class="text-xl font-semibold mb-2">Login</h3>
+            <input type="email" id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2" required>
+            <input type="password" id="loginPassword" placeholder="Password" class="border p-2 w-full mb-2" required>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
+        </form>
+
+        <!-- Phishing Test Form (Protected) -->
+        <div id="phishingTestSection" class="hidden">
+            <h3 class="text-xl font-semibold mb-2">Start Your Free Phishing Test</h3>
+            <form id="phishingForm">
+                <input type="email" id="phishingEmail" placeholder="Enter target email" class="border p-2 w-full mb-2" required>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Start Test</button>
+            </form>
         </div>
     </section>
-
-    <section class="bg-gray-200 p-6 text-center">
-        <h2 class="text-2xl font-semibold">Pricing</h2>
-        <div class="flex justify-center mt-4">
-            <div class="bg-white p-4 shadow-lg rounded m-2">
-                <h3 class="font-bold">Basic</h3>
-                <p>$50 per test</p>
-                <p>Up to 50 employees</p>
-                <a href="subscribe.html" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded inline-block hover:bg-blue-700">Subscribe</a>
-            </div>
-            <div class="bg-white p-4 shadow-lg rounded m-2">
-                <h3 class="font-bold">Premium</h3>
-                <p>$99/month</p>
-                <p>Monthly tests + reporting</p>
-                <a href="subscribe.html" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded inline-block hover:bg-blue-700">Subscribe</a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-blue-600 text-white text-center py-4">
-        <p>&copy; 2025 Phishing Shield | Secure Your Business</p>
-    </footer>
 
     <script>
-        document.getElementById("phishingForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
-            const email = document.getElementById("email").value;
-            const responseMessage = document.getElementById("responseMessage");
+        document.getElementById("registerForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
 
-            try {
-                const response = await fetch("https://forti-phish.com/api/start-phishing-test", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email })
-                });
+            const response = await fetch("/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
 
-                if (response.ok) {
-                    responseMessage.textContent = "✅ Test email sent successfully! Check your inbox.";
-                    responseMessage.className = "text-green-600 mt-4";
-                } else {
-                    throw new Error("Failed to send test.");
-                }
-            } catch (error) {
-                responseMessage.textContent = "❌ Error sending test. Please try again.";
-                responseMessage.className = "text-red-600 mt-4";
+            const data = await response.json();
+            alert(data.message || data.error);
+        });
+
+        document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("loginEmail").value;
+            const password = document.getElementById("loginPassword").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+                document.getElementById("phishingTestSection").classList.remove("hidden");
+                alert("Login successful!");
+            } else {
+                alert(data.error);
             }
+        });
+
+        document.getElementById("phishingForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("phishingEmail").value;
+            const token = localStorage.getItem("token");
+
+            const response = await fetch("/api/start-phishing-test", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ email })
+            });
+
+            const data = await response.json();
+            alert(data.message || data.error);
         });
     </script>
 </body>
