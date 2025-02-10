@@ -22,7 +22,6 @@ const transporter = nodemailer.createTransport({
 
 app.post("/api/start-phishing-test", async (req, res) => {
     const { email } = req.body;
-    console.log("Got Request);
     if (!email) {
         return res.status(400).json({ error: "Email is required" });
     }
