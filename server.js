@@ -45,11 +45,21 @@ app.post("/api/start-phishing-test", async (req, res) => {
     const trackingUrl = `https://forti-phish.com/track?email=${encodeURIComponent(email)}`;
 
     const mailOptions = {
-        from: "no-reply@forti-phish.com",
-        to: email,
-        subject: "🚨 Security Alert - Verify Your Account",
-        html: `<p>We detected unusual activity. Click <a href='${trackingUrl}'>here</a> to verify.</p>`
-    };
+    from: "no-reply@forti-phish.com", // 
+    to: email,
+    subject: "⚠️ Important: Account Verification Required",
+    html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
+            <h2 style="color: #D93025;">Action Required: Verify Your Account</h2>
+            <p>We've detected unusual activity on your account. For your security, please verify your login to prevent account suspension.</p>
+            <p>Failure to verify within 24 hours may result in restricted access.</p>
+            <a href="${trackingUrl}" style="display: inline-block; background-color: #1A73E8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px;">
+                Verify My Account
+            </a>
+            <p style="font-size: 12px; color: gray; margin-top: 10px;">If you didn't request this, please ignore this email.</p>
+        </div>
+    `
+};
 
     try {
         await transporter.sendMail(mailOptions);
@@ -64,31 +74,39 @@ app.get("/track", (req, res) => {
     const email = req.query.email;
 
     if (email) {
-        const logEntry = `${email} clicked at ${new Date().toISOString()}\n`;
-        fs.appendFileSync("log.txt", logEntry);
-        console.log(logEntry);
+        const logEntry = `${email}-clicked`;
+        const logFile = "log.txt";
 
-        // Send Notification to Admin
-        const adminMailOptions = {
-            from: "no-reply@forti-phish.com",
-            to: "main@forti-phish.com", // Admin email to receive notifications
-            subject: "🚨 Phishing Test Alert!",
-            text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
-        };
+        // Check if the user has already clicked the link
+        const existingLog = fs.existsSync(logFile) ? fs.readFileSync(logFile, "utf8") : "";
 
-        transporter.sendMail(adminMailOptions, (error, info) => {
-            if (error) {
-                console.error("Error sending notification:", error);
-            } else {
-                console.log("Admin notified:", info.response);
-            }
-        });
+        if (!existingLog.includes(logEntry)) {
+            fs.appendFileSync(logFile, `${logEntry} at ${new Date().toISOString()}\n`);
+            console.log(`${email} clicked the phishing link.`);
+
+            // Send Notification to Admin
+            const adminMailOptions = {
+                from: "no-reply@forti-phish.com",
+                to: "main@forti-phish.com",
+                subject: "🚨 Phishing Test Alert!",
+                text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
+            };
+
+            transporter.sendMail(adminMailOptions, (error, info) => {
+                if (error) {
+                    console.error("Error sending notification:", error);
+                } else {
+                    console.log("Admin notified:", info.response);
+                }
+            });
+        } else {
+            console.log(`Duplicate click detected for ${email}, notification skipped.`);
+        }
     }
 
-    // Redirect to the training page
+    // Redirect to training page
     res.redirect("https://your-training-page.com");
 });
-
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
