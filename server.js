@@ -3,20 +3,19 @@ const express = require("express");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 
+env.config(); // Load environment variables from .env
+
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const adminEmail = "kfirhason342@gmail.com"; 
-
+const adminEmail = "main@forti-phish.com"; 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.zoho.com",
-    port: 465,
-    secure: true, 
+    service: "gmail",
     auth: {
-        user: "no-reply@phishingservice.net",
-        pass: "YJz5Jf63hBQx" 
+        user: "main@forti-phish.com",
+        pass: "xhgb ijmf puzo oulu"  
     }
 });
 
@@ -26,13 +25,13 @@ app.post("/api/start-phishing-test", async (req, res) => {
         return res.status(400).json({ error: "Email is required" });
     }
 
-    const trackingUrl = `http://phishingservice.net/track?email=${encodeURIComponent(email)}`;
-
+    const trackingUrl = `http://forti-phish.com/track?email=${encodeURIComponent(email)}`;
+    
     const mailOptions = {
-        from: "no-reply@phishingservice.net",
+        from: "no-reply@forti-phish.com",
         to: email,
         subject: "🚨 Important Security Notification",
-        html: `
+        html: ` 
             <div style="font-family: Arial, sans-serif; padding: 20px;">
                 <h2 style="color: #d9534f;">🔒 Security Alert</h2>
                 <p>We detected unusual login activity on your account.</p>
@@ -47,44 +46,22 @@ app.post("/api/start-phishing-test", async (req, res) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`Phishing test email sent to: ${email}`);
         res.status(200).json({ message: "Phishing test email sent!" });
     } catch (error) {
-        console.error("Error sending email:", error);
+        console.error(error);
         res.status(500).json({ error: "Failed to send email" });
     }
 });
 
-
 app.get("/track", (req, res) => {
     const email = req.query.email;
-
     if (email) {
         const logEntry = `${email} clicked at ${new Date().toISOString()}\n`;
         fs.appendFileSync("log.txt", logEntry);
         console.log(logEntry);
-
-       
-        const mailOptions = {
-            from: "no-reply@phishingservice.net",
-            to: adminEmail, 
-            subject: "🚨 Phishing Test Alert!",
-            text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error("Error sending notification:", error);
-            } else {
-                console.log("Admin notified:", info.response);
-            }
-        });
     }
-
-
     res.redirect("https://your-training-page.com");
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-
