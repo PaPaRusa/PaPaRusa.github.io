@@ -25,12 +25,15 @@ app.get("/subscribe", (req, res) => {
 const adminEmail = "main@forti-phish.com";
 
 const transporter = nodemailer.createTransport({
-    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true, 
     auth: {
-        user: "main@forti-phish.com", 
-        pass: process.env.GMAIL_APP_PASSWORD // Environment variable for security
+        user: process.env.GMAIL_USER,           
+        pass: process.env.GMAIL_APP_PASSWORD    
     }
 });
+
 
 app.post("/api/start-phishing-test", async (req, res) => {
     const { email } = req.body;
