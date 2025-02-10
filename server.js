@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sqlite3 = require("sqlite3").verbose();
 require('dotenv').config();
