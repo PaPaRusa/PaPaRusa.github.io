@@ -3,114 +3,101 @@ const path = require("path");
 const fs = require("fs");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const sqlite3 = require("sqlite3").verbose();
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
+const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
+
+// Database setup
+const db = new sqlite3.Database("database.sqlite");
+db.serialize(() => {
+    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, password TEXT, has_used_free_test INTEGER DEFAULT 0)");
+});
+
 // Serve static files from the 'public' folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// Route for homepage
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Route for subscribe page
 app.get("/subscribe", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "subscribe.html"));
 });
 
-const adminEmail = "main@forti-phish.com";
-
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, 
-    auth: {
-        user: process.env.GMAIL_USER,           
-        pass: process.env.GMAIL_APP_PASSWORD    
+// User Registration
+app.post("/register", async (req, res) => {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required" });
     }
-});
-
-
-app.post("/api/start-phishing-test", async (req, res) => {
-    const { email } = req.body;
-
-    if (!email) {
-        return res.status(400).json({ error: "Email is required" });
-    }
-
-    const trackingUrl = `https://forti-phish.com/track?email=${encodeURIComponent(email)}`;
-
-    const mailOptions = {
-    from: "no-reply@forti-phish.com", // 
-    to: email,
-    subject: "⚠️ Important: Account Verification Required",
-    html: `
-        <div style="font-family: Arial, sans-serif; padding: 20px; color: #333;">
-            <h2 style="color: #D93025;">Action Required: Verify Your Account</h2>
-            <p>We've detected unusual activity on your account. For your security, please verify your login to prevent account suspension.</p>
-            <p>Failure to verify within 24 hours may result in restricted access.</p>
-            <a href="${trackingUrl}" style="display: inline-block; background-color: #1A73E8; color: white; padding: 12px 20px; text-decoration: none; border-radius: 5px;">
-                Verify My Account
-            </a>
-            <p style="font-size: 12px; color: gray; margin-top: 10px;">If you didn't request this, please ignore this email.</p>
-        </div>
-    `
-};
 
     try {
-        await transporter.sendMail(mailOptions);
-        res.status(200).json({ message: "Phishing test email sent successfully!" });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        db.run("INSERT INTO users (email, password) VALUES (?, ?)", [email, hashedPassword], function (err) {
+            if (err) {
+                return res.status(400).json({ error: "Email already registered" });
+            }
+            res.status(201).json({ message: "User registered successfully" });
+        });
     } catch (error) {
-        console.error("Email sending failed:", error);
-        res.status(500).json({ error: "Failed to send email" });
+        res.status(500).json({ error: "Registration failed" });
     }
 });
 
-app.get("/track", (req, res) => {
-    const email = req.query.email;
-
-    if (email) {
-        const logEntry = `${email}-clicked`;
-        const logFile = "log.txt";
-
-        // Check if the user has already clicked the link
-        const existingLog = fs.existsSync(logFile) ? fs.readFileSync(logFile, "utf8") : "";
-
-        if (!existingLog.includes(logEntry)) {
-            fs.appendFileSync(logFile, `${logEntry} at ${new Date().toISOString()}\n`);
-            console.log(`${email} clicked the phishing link.`);
-
-            // Send Notification to Admin
-            const adminMailOptions = {
-                from: "no-reply@forti-phish.com",
-                to: "main@forti-phish.com",
-                subject: "🚨 Phishing Test Alert!",
-                text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
-            };
-
-            transporter.sendMail(adminMailOptions, (error, info) => {
-                if (error) {
-                    console.error("Error sending notification:", error);
-                } else {
-                    console.log("Admin notified:", info.response);
-                }
-            });
-        } else {
-            console.log(`Duplicate click detected for ${email}, notification skipped.`);
+// User Login
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+    db.get("SELECT * FROM users WHERE email = ?", [email], async (err, user) => {
+        if (err || !user) {
+            return res.status(400).json({ error: "Invalid credentials" });
         }
-    }
 
-    // Redirect to training page
-    res.redirect("https://your-training-page.com");
+        const isValid = await bcrypt.compare(password, user.password);
+        if (!isValid) {
+            return res.status(400).json({ error: "Invalid credentials" });
+        }
+
+        const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+        res.json({ token });
+    });
 });
 
-// Catch-all route for undefined paths
-app.use((req, res) => {
-    res.status(404).send("404 Not Found");
+// Middleware to verify JWT
+function authenticateToken(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, SECRET_KEY, (err, user) => {
+        if (err) return res.sendStatus(403);
+        req.user = user;
+        next();
+    });
+}
+
+// Protected API for starting phishing test
+app.post("/api/start-phishing-test", authenticateToken, (req, res) => {
+    const userId = req.user.id;
+
+    db.get("SELECT has_used_free_test FROM users WHERE id = ?", [userId], (err, row) => {
+        if (err || !row) {
+            return res.status(500).json({ error: "User not found" });
+        }
+
+        if (row.has_used_free_test) {
+            return res.status(403).json({ error: "Free test already used" });
+        }
+
+        db.run("UPDATE users SET has_used_free_test = 1 WHERE id = ?", [userId]);
+        res.json({ message: "Phishing test initiated successfully!" });
+    });
 });
 
 const PORT = process.env.PORT || 3000;
