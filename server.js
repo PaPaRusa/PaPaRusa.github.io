@@ -22,12 +22,12 @@ app.get("/subscribe", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "subscribe.html"));
 });
 
-const adminEmail = "your-admin-email@gmail.com";
+const adminEmail = "main@forti-phish.com";
 
 const transporter = nodemailer.createTransport({
     service: "Gmail",
     auth: {
-        user: "your-email@gmail.com", // Replace with your email
+        user: "main@forti-phish.com", 
         pass: process.env.GMAIL_APP_PASSWORD // Environment variable for security
     }
 });
@@ -42,7 +42,7 @@ app.post("/api/start-phishing-test", async (req, res) => {
     const trackingUrl = `https://forti-phish.com/track?email=${encodeURIComponent(email)}`;
 
     const mailOptions = {
-        from: "no-reply@yourdomain.com",
+        from: "no-reply@forti-phish.com",
         to: email,
         subject: "🚨 Security Alert - Verify Your Account",
         html: `<p>We detected unusual activity. Click <a href='${trackingUrl}'>here</a> to verify.</p>`
