@@ -62,13 +62,33 @@ app.post("/api/start-phishing-test", async (req, res) => {
 
 app.get("/track", (req, res) => {
     const email = req.query.email;
+
     if (email) {
         const logEntry = `${email} clicked at ${new Date().toISOString()}\n`;
         fs.appendFileSync("log.txt", logEntry);
         console.log(logEntry);
+
+        // Send Notification to Admin
+        const adminMailOptions = {
+            from: "no-reply@forti-phish.com",
+            to: "main@forti-phish.com", // Admin email to receive notifications
+            subject: "🚨 Phishing Test Alert!",
+            text: `User ${email} clicked the phishing link at ${new Date().toISOString()}.`
+        };
+
+        transporter.sendMail(adminMailOptions, (error, info) => {
+            if (error) {
+                console.error("Error sending notification:", error);
+            } else {
+                console.log("Admin notified:", info.response);
+            }
+        });
     }
+
+    // Redirect to the training page
     res.redirect("https://your-training-page.com");
 });
+
 
 // Catch-all route for undefined paths
 app.use((req, res) => {
