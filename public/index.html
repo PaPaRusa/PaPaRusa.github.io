@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phishing Test Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script>
+        if (location.protocol !== 'https:') {
+            location.replace(`https://${location.hostname}${location.pathname}${location.search}`);
+        }
+    </script>
 </head>
 <body class="bg-gray-100">
     <header class="bg-blue-600 text-white text-center py-6">
@@ -17,16 +22,16 @@
         <!-- Registration Form -->
         <form id="registerForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-4">
             <h3 class="text-xl font-semibold mb-2">Register</h3>
-            <input type="email" id="registerEmail" placeholder="Email" class="border p-2 w-full mb-2" required>
-            <input type="password" id="registerPassword" placeholder="Password" class="border p-2 w-full mb-2" required>
+            <input type="email" id="registerEmail" placeholder="Email" class="border p-2 w-full mb-2" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+            <input type="password" id="registerPassword" placeholder="Password" class="border p-2 w-full mb-2" required minlength="6">
             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Register</button>
         </form>
 
         <!-- Login Form -->
         <form id="loginForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h3 class="text-xl font-semibold mb-2">Login</h3>
-            <input type="email" id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2" required>
-            <input type="password" id="loginPassword" placeholder="Password" class="border p-2 w-full mb-2" required>
+            <input type="email" id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
+            <input type="password" id="loginPassword" placeholder="Password" class="border p-2 w-full mb-2" required minlength="6">
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
         </form>
 
@@ -34,7 +39,7 @@
         <div id="phishingTestSection" class="hidden">
             <h3 class="text-xl font-semibold mb-2">Start Your Free Phishing Test</h3>
             <form id="phishingForm">
-                <input type="email" id="phishingEmail" placeholder="Enter target email" class="border p-2 w-full mb-2" required>
+                <input type="email" id="phishingEmail" placeholder="Enter target email" class="border p-2 w-full mb-2" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
                 <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Start Test</button>
             </form>
         </div>
