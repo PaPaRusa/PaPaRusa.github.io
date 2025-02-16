@@ -1,12 +1,9 @@
 const express = require("express");
-const path = require("path");
-const fs = require("fs");
-const cors = require("cors");
-const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sqlite3 = require("sqlite3").verbose();
-require('dotenv').config();
+const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 app.use(express.json());
@@ -17,23 +14,13 @@ const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 // Database setup
 const db = new sqlite3.Database("database.sqlite");
 db.serialize(() => {
-    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, password TEXT, has_used_free_test INTEGER DEFAULT 0)");
+    db.run("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, password TEXT)");
 });
 
-// Serve static files from the 'public' folder
-app.use(express.static(path.join(__dirname, "public")));
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
-app.get("/subscribe", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "subscribe.html"));
-});
-
-// User Registration
+// Register endpoint
 app.post("/register", async (req, res) => {
     const { email, password } = req.body;
+    
     if (!email || !password) {
         return res.status(400).json({ error: "Email and password are required" });
     }
@@ -51,7 +38,7 @@ app.post("/register", async (req, res) => {
     }
 });
 
-// User Login
+// Login endpoint
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
     db.get("SELECT * FROM users WHERE email = ?", [email], async (err, user) => {
@@ -84,20 +71,13 @@ function authenticateToken(req, res, next) {
 
 // Protected API for starting phishing test
 app.post("/api/start-phishing-test", authenticateToken, (req, res) => {
-    const userId = req.user.id;
+    const { email } = req.body;
+    if (!email) {
+        return res.status(400).json({ error: "Target email is required" });
+    }
 
-    db.get("SELECT has_used_free_test FROM users WHERE id = ?", [userId], (err, row) => {
-        if (err || !row) {
-            return res.status(500).json({ error: "User not found" });
-        }
-
-        if (row.has_used_free_test) {
-            return res.status(403).json({ error: "Free test already used" });
-        }
-
-        db.run("UPDATE users SET has_used_free_test = 1 WHERE id = ?", [userId]);
-        res.json({ message: "Phishing test initiated successfully!" });
-    });
+    // Placeholder response - Replace with email sending logic
+    res.json({ message: "Phishing test initiated successfully!" });
 });
 
 const PORT = process.env.PORT || 3000;

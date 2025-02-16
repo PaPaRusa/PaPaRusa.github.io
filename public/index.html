@@ -3,99 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Test Service</title>
+    <title>Register - Phishing Test Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <script>
-        if (location.protocol !== 'https:') {
-            location.replace(`https://${location.hostname}${location.pathname}${location.search}`);
-        }
-    </script>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-blue-600 text-white flex justify-between items-center p-6">
-        <h1 class="text-3xl font-bold">Phishing Test Service</h1>
-        <nav>
-            <button id="registerButton" class="bg-white text-blue-600 px-4 py-2 rounded">Register</button>
-        </nav>
-    </header>
-
-    <section class="container mx-auto text-center p-6">
-        <h2 class="text-4xl font-bold text-blue-600">Test Your Employees' Awareness</h2>
-        <p class="mt-2 text-lg text-gray-700">Get a free phishing test and protect your business today.</p>
-        <div class="mt-4 flex justify-center">
-            <input type="email" id="testEmail" placeholder="Enter target email" class="border p-2 w-64 mr-2" required>
-            <button id="freeTestButton" class="bg-green-500 text-white px-6 py-3 rounded text-lg">Start Free Test</button>
-        </div>
-    </section>
-
-    <section class="container mx-auto text-center p-6">
-        <h2 class="text-2xl font-semibold">Subscription Plans</h2>
-        <div class="flex justify-center mt-4 space-x-4">
-            <div class="bg-white p-6 shadow-lg rounded-lg">
-                <h3 class="text-xl font-bold">Basic</h3>
-                <p class="text-gray-700">$50 per test</p>
-                <button id="purchaseBasic" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded">Get Started</button>
-            </div>
-            <div class="bg-white p-6 shadow-lg rounded-lg">
-                <h3 class="text-xl font-bold">Premium</h3>
-                <p class="text-gray-700">$99/month</p>
-                <button id="subscribePremium" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded">Subscribe</button>
-            </div>
-        </div>
-    </section>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold text-center text-blue-600">Create an Account</h2>
+        <form id="registerForm" class="mt-4">
+            <label class="block text-gray-700">Email</label>
+            <input type="email" id="registerEmail" class="w-full p-2 border rounded mb-3" required>
+            
+            <label class="block text-gray-700">Password</label>
+            <input type="password" id="registerPassword" class="w-full p-2 border rounded mb-3" required minlength="6">
+            
+            <button type="submit" class="bg-blue-600 text-white w-full p-2 rounded">Register</button>
+        </form>
+        <p class="text-center text-gray-600 mt-3">Already have an account? <a href="/login" class="text-blue-600">Login</a></p>
+    </div>
 
     <script>
-        document.getElementById("registerButton").addEventListener("click", () => {
-            window.location.href = "/register";
-        });
-
-        document.getElementById("freeTestButton").addEventListener("click", async () => {
-            const email = document.getElementById("testEmail").value;
-            const token = localStorage.getItem("token");
+        document.getElementById("registerForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("registerEmail").value;
+            const password = document.getElementById("registerPassword").value;
             
-            if (!token) {
-                if (confirm("You need to register or log in to start the test. Do you want to go to the registration page?")) {
-                    window.location.href = "/register";
-                }
-                return;
-            }
-            
-            if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-            
-            const response = await fetch("/api/start-phishing-test", {
+            const response = await fetch("/register", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ email })
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
             });
             
             const data = await response.json();
-            if (response.status === 403) {
-                alert("You have already used your free test.");
-            } else if (response.status === 401) {
-                if (confirm("Session expired. Please log in again. Do you want to go to the login page?")) {
-                    window.location.href = "/login";
-                }
+            if (response.ok) {
+                alert("Registration successful! Redirecting to login...");
+                window.location.href = "/login";
             } else {
-                alert(data.message || data.error);
+                alert(data.error);
             }
-        });
-
-        document.getElementById("purchaseBasic").addEventListener("click", async () => {
-            const response = await fetch("/create-checkout-session", { method: "POST" });
-            const session = await response.json();
-            window.location.href = session.url;
-        });
-
-        document.getElementById("subscribePremium").addEventListener("click", async () => {
-            const response = await fetch("/create-subscription-session", { method: "POST" });
-            const session = await response.json();
-            window.location.href = session.url;
         });
     </script>
 </body>
