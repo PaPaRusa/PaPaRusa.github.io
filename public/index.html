@@ -22,7 +22,10 @@
     <section class="container mx-auto text-center p-6">
         <h2 class="text-4xl font-bold text-blue-600">Test Your Employees' Awareness</h2>
         <p class="mt-2 text-lg text-gray-700">Get a free phishing test and protect your business today.</p>
-        <button id="freeTestButton" class="bg-green-500 text-white px-6 py-3 mt-4 rounded text-lg">Start Free Test</button>
+        <div class="mt-4 flex justify-center">
+            <input type="email" id="testEmail" placeholder="Enter target email" class="border p-2 w-64 mr-2" required>
+            <button id="freeTestButton" class="bg-green-500 text-white px-6 py-3 rounded text-lg">Start Free Test</button>
+        </div>
     </section>
 
     <section class="container mx-auto text-center p-6">
@@ -46,14 +49,32 @@
             window.location.href = "/register";
         });
 
-        document.getElementById("freeTestButton").addEventListener("click", () => {
+        document.getElementById("freeTestButton").addEventListener("click", async () => {
+            const email = document.getElementById("testEmail").value;
             const token = localStorage.getItem("token");
+            
             if (!token) {
                 alert("Please register or log in to access the free test.");
                 window.location.href = "/register";
-            } else {
-                window.location.href = "/dashboard";
+                return;
             }
+            
+            if (!email || !email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+            
+            const response = await fetch("/api/start-phishing-test", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ email })
+            });
+            
+            const data = await response.json();
+            alert(data.message || data.error);
         });
 
         document.getElementById("purchaseBasic").addEventListener("click", async () => {
