@@ -12,92 +12,60 @@
     </script>
 </head>
 <body class="bg-gray-100">
-    <header class="bg-blue-600 text-white text-center py-6">
+    <header class="bg-blue-600 text-white flex justify-between items-center p-6">
         <h1 class="text-3xl font-bold">Phishing Test Service</h1>
+        <nav>
+            <button id="registerButton" class="bg-white text-blue-600 px-4 py-2 rounded">Register</button>
+        </nav>
     </header>
 
-    <section class="container mx-auto p-6">
-        <h2 class="text-2xl font-semibold text-center">Register or Login to Start the Test</h2>
+    <section class="container mx-auto text-center p-6">
+        <h2 class="text-4xl font-bold text-blue-600">Test Your Employees' Awareness</h2>
+        <p class="mt-2 text-lg text-gray-700">Get a free phishing test and protect your business today.</p>
+        <button id="freeTestButton" class="bg-green-500 text-white px-6 py-3 mt-4 rounded text-lg">Start Free Test</button>
+    </section>
 
-        <!-- Registration Form -->
-        <form id="registerForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 mt-4">
-            <h3 class="text-xl font-semibold mb-2">Register</h3>
-            <input type="email" id="registerEmail" placeholder="Email" class="border p-2 w-full mb-2" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
-            <input type="password" id="registerPassword" placeholder="Password" class="border p-2 w-full mb-2" required minlength="6">
-            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Register</button>
-        </form>
-
-        <!-- Login Form -->
-        <form id="loginForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h3 class="text-xl font-semibold mb-2">Login</h3>
-            <input type="email" id="loginEmail" placeholder="Email" class="border p-2 w-full mb-2" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
-            <input type="password" id="loginPassword" placeholder="Password" class="border p-2 w-full mb-2" required minlength="6">
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Login</button>
-        </form>
-
-        <!-- Phishing Test Form (Protected) -->
-        <div id="phishingTestSection" class="hidden">
-            <h3 class="text-xl font-semibold mb-2">Start Your Free Phishing Test</h3>
-            <form id="phishingForm">
-                <input type="email" id="phishingEmail" placeholder="Enter target email" class="border p-2 w-full mb-2" required pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$">
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Start Test</button>
-            </form>
+    <section class="container mx-auto text-center p-6">
+        <h2 class="text-2xl font-semibold">Subscription Plans</h2>
+        <div class="flex justify-center mt-4 space-x-4">
+            <div class="bg-white p-6 shadow-lg rounded-lg">
+                <h3 class="text-xl font-bold">Basic</h3>
+                <p class="text-gray-700">$50 per test</p>
+                <button id="purchaseBasic" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded">Get Started</button>
+            </div>
+            <div class="bg-white p-6 shadow-lg rounded-lg">
+                <h3 class="text-xl font-bold">Premium</h3>
+                <p class="text-gray-700">$99/month</p>
+                <button id="subscribePremium" class="bg-blue-600 text-white px-4 py-2 mt-2 rounded">Subscribe</button>
+            </div>
         </div>
     </section>
 
     <script>
-        document.getElementById("registerForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("registerEmail").value;
-            const password = document.getElementById("registerPassword").value;
-
-            const response = await fetch("/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
-
-            const data = await response.json();
-            alert(data.message || data.error);
+        document.getElementById("registerButton").addEventListener("click", () => {
+            window.location.href = "/register";
         });
 
-        document.getElementById("loginForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("loginEmail").value;
-            const password = document.getElementById("loginPassword").value;
-
-            const response = await fetch("/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
-
-            const data = await response.json();
-            if (data.token) {
-                localStorage.setItem("token", data.token);
-                document.getElementById("phishingTestSection").classList.remove("hidden");
-                alert("Login successful!");
+        document.getElementById("freeTestButton").addEventListener("click", () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert("Please register or log in to access the free test.");
+                window.location.href = "/register";
             } else {
-                alert(data.error);
+                window.location.href = "/dashboard";
             }
         });
 
-        document.getElementById("phishingForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("phishingEmail").value;
-            const token = localStorage.getItem("token");
+        document.getElementById("purchaseBasic").addEventListener("click", async () => {
+            const response = await fetch("/create-checkout-session", { method: "POST" });
+            const session = await response.json();
+            window.location.href = session.url;
+        });
 
-            const response = await fetch("/api/start-phishing-test", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify({ email })
-            });
-
-            const data = await response.json();
-            alert(data.message || data.error);
+        document.getElementById("subscribePremium").addEventListener("click", async () => {
+            const response = await fetch("/create-subscription-session", { method: "POST" });
+            const session = await response.json();
+            window.location.href = session.url;
         });
     </script>
 </body>
