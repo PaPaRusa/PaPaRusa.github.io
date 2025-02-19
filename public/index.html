@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phishing Test Service</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         html {
             scroll-behavior: smooth;
         }
         body {
-            font-family: 'IBM Plex Serif', serif;
+            font-family: 'Roboto', sans-serif;
             background: black;
             color: white;
             overflow-x: hidden;
@@ -29,9 +29,12 @@
             left: 0;
             z-index: 1000;
         }
+        .header-space {
+            height: 80px;
+        }
         .nav-link {
             margin-right: 30px;
-            font-size: 22px;
+            font-size: 20px;
             cursor: pointer;
             font-weight: bold;
             transition: color 0.3s ease;
@@ -41,7 +44,7 @@
         }
         .hero {
             text-align: center;
-            padding: 180px 20px 100px;
+            padding: 100px 20px 100px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -50,7 +53,7 @@
             position: relative;
         }
         .hero h1 {
-            font-size: 48px;
+            font-size: 42px;
             font-weight: bold;
             max-width: 90%;
             background: linear-gradient(to right, #ffffff, #5C59F3);
@@ -58,7 +61,7 @@
             -webkit-text-fill-color: transparent;
         }
         .hero p {
-            font-size: 20px;
+            font-size: 18px;
             margin-top: 15px;
             max-width: 80%;
             opacity: 0.9;
@@ -75,7 +78,7 @@
             background-color: #5C59F3;
             color: white;
             padding: 14px 32px;
-            font-size: 20px;
+            font-size: 18px;
             border-radius: 30px;
             cursor: pointer;
             font-weight: bold;
@@ -87,7 +90,7 @@
         }
         .email-input {
             padding: 12px;
-            font-size: 18px;
+            font-size: 16px;
             border-radius: 8px;
             border: none;
             width: 250px;
@@ -103,18 +106,21 @@
             font-size: 18px;
             font-weight: bold;
         }
-        .pricing {
-            text-align: center;
-            padding: 80px 20px;
-            background: black;
+        .shield-image {
+            margin-top: 30px;
+            width: 150px;
         }
-        .pricing-container {
+        .section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        .pricing-container, .company-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
             gap: 30px;
         }
-        .pricing-box {
+        .pricing-box, .company-box {
             background: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 20px;
@@ -131,37 +137,6 @@
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
         }
-        .footer-links {
-            margin-top: 20px;
-        }
-        .footer-links a {
-            margin: 0 15px;
-            color: white;
-            text-decoration: none;
-            font-size: 14px;
-        }
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 36px;
-            }
-            .hero p {
-                font-size: 18px;
-            }
-            .cta-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .email-input {
-                width: 100%;
-            }
-            .pricing-container {
-                flex-direction: column;
-                align-items: center;
-            }
-            .pricing-box {
-                width: 90%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -173,6 +148,7 @@
         </nav>
         <button id="registerButton" class="register-button" onclick="window.location.href='register.html'">REGISTER</button>
     </header>
+    <div class="header-space"></div>
     
     <section id="home" class="hero">
         <h1>PROTECT YOUR BUSINESS FROM CYBER THREATS</h1>
@@ -181,9 +157,10 @@
             <input type="email" id="emailInput" class="email-input" placeholder="Enter email for test" required>
             <button id="freeTestButton" class="cta-button">START YOUR FREE TEST</button>
         </div>
+        <img src="images/download.png" alt="Shield" class="shield-image">
     </section>
     
-    <section id="pricing" class="pricing">
+    <section id="pricing" class="section">
         <h2>PRICING</h2>
         <div class="pricing-container">
             <div class="pricing-box">
@@ -198,6 +175,13 @@
                 <p>UP TO 500 TESTS</p>
                 <button class="cta-button">SUBSCRIBE</button>
             </div>
+        </div>
+    </section>
+    
+    <section id="company" class="section">
+        <h2>COMPANY</h2>
+        <div class="company-container">
+            <p>We are committed to helping businesses stay secure by providing real-world phishing tests and security training.</p>
         </div>
     </section>
 </body>
