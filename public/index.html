@@ -40,19 +40,19 @@
             color: #5C59F3;
         }
         .hero {
-            text-align: left;
-            padding: 180px 50px 100px;
+            text-align: center;
+            padding: 180px 20px 100px;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             position: relative;
         }
         .hero h1 {
-            font-size: 56px;
+            font-size: 48px;
             font-weight: bold;
-            max-width: 600px;
+            max-width: 90%;
             background: linear-gradient(to right, #ffffff, #5C59F3);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -60,7 +60,7 @@
         .hero p {
             font-size: 20px;
             margin-top: 15px;
-            max-width: 600px;
+            max-width: 80%;
             opacity: 0.9;
         }
         .cta-container {
@@ -68,6 +68,8 @@
             align-items: center;
             gap: 15px;
             margin-top: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
         .cta-button {
             background-color: #5C59F3;
@@ -101,34 +103,28 @@
             font-size: 18px;
             font-weight: bold;
         }
-        .shield-image {
-            position: absolute;
-            right: 50px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 350px;
-            filter: drop-shadow(0px 4px 10px rgba(255, 255, 255, 0.2));
-        }
         .pricing {
             text-align: center;
-            padding: 100px 50px;
+            padding: 80px 20px;
             background: black;
         }
         .pricing-container {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 50px;
+            gap: 30px;
         }
         .pricing-box {
             background: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 20px;
-            width: 300px;
+            width: 90%;
+            max-width: 300px;
             text-align: center;
         }
         .footer {
             background: #4A5568;
-            padding: 50px;
+            padding: 40px;
             text-align: center;
             color: white;
             margin-top: 50px;
@@ -144,29 +140,19 @@
             text-decoration: none;
             font-size: 14px;
         }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero {
-                padding: 120px 20px;
-                text-align: center;
-                align-items: center;
-            }
             .hero h1 {
                 font-size: 36px;
-                max-width: 100%;
             }
             .hero p {
                 font-size: 18px;
-                max-width: 100%;
             }
             .cta-container {
                 flex-direction: column;
                 align-items: center;
-                gap: 10px;
             }
             .email-input {
-                width: 90%;
+                width: 100%;
             }
             .pricing-container {
                 flex-direction: column;
@@ -175,14 +161,44 @@
             .pricing-box {
                 width: 90%;
             }
-            .shield-image {
-                width: 250px;
-                right: 50%;
-                transform: translate(50%, -50%);
-            }
         }
     </style>
 </head>
 <body>
+    <header>
+        <nav>
+            <a href="#home" class="nav-link">HOME</a>
+            <a href="#pricing" class="nav-link">PRICING</a>
+            <a href="#company" class="nav-link">COMPANY</a>
+        </nav>
+        <button id="registerButton" class="register-button" onclick="window.location.href='register.html'">REGISTER</button>
+    </header>
+    
+    <section id="home" class="hero">
+        <h1>PROTECT YOUR BUSINESS FROM CYBER THREATS</h1>
+        <p>Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.</p>
+        <div class="cta-container">
+            <input type="email" id="emailInput" class="email-input" placeholder="Enter email for test" required>
+            <button id="freeTestButton" class="cta-button">START YOUR FREE TEST</button>
+        </div>
+    </section>
+    
+    <section id="pricing" class="pricing">
+        <h2>PRICING</h2>
+        <div class="pricing-container">
+            <div class="pricing-box">
+                <h3>BASIC</h3>
+                <p>$99/MONTH</p>
+                <p>UP TO 150 TESTS</p>
+                <button class="cta-button">SUBSCRIBE</button>
+            </div>
+            <div class="pricing-box">
+                <h3>PREMIUM</h3>
+                <p>$199/MONTH</p>
+                <p>UP TO 500 TESTS</p>
+                <button class="cta-button">SUBSCRIBE</button>
+            </div>
+        </div>
+    </section>
 </body>
 </html>
