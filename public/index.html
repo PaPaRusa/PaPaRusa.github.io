@@ -144,43 +144,45 @@
             text-decoration: none;
             font-size: 14px;
         }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 120px 20px;
+                text-align: center;
+                align-items: center;
+            }
+            .hero h1 {
+                font-size: 36px;
+                max-width: 100%;
+            }
+            .hero p {
+                font-size: 18px;
+                max-width: 100%;
+            }
+            .cta-container {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            .email-input {
+                width: 90%;
+            }
+            .pricing-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            .pricing-box {
+                width: 90%;
+            }
+            .shield-image {
+                width: 250px;
+                right: 50%;
+                transform: translate(50%, -50%);
+            }
+        }
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="#home" class="nav-link">HOME</a>
-            <a href="#pricing" class="nav-link">PRICING</a>
-            <a href="#company" class="nav-link">COMPANY</a>
-        </nav>
-        <button id="registerButton" class="register-button" onclick="window.location.href='register.html'">REGISTER</button>
-    </header>
-    
-    <section id="home" class="hero">
-        <h1>PROTECT YOUR BUSINESS FROM CYBER THREATS</h1>
-        <p>Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.</p>
-        <div class="cta-container">
-            <input type="email" id="emailInput" class="email-input" placeholder="Enter email for test" required>
-            <button id="freeTestButton" class="cta-button">START YOUR FREE TEST</button>
-        </div>
-    </section>
-    
-    <section id="pricing" class="pricing">
-        <h2>PRICING</h2>
-        <div class="pricing-container">
-            <div class="pricing-box">
-                <h3>BASIC</h3>
-                <p>$99/MONTH</p>
-                <p>UP TO 150 TESTS</p>
-                <button class="cta-button">SUBSCRIBE</button>
-            </div>
-            <div class="pricing-box">
-                <h3>PREMIUM</h3>
-                <p>$199/MONTH</p>
-                <p>UP TO 500 TESTS</p>
-                <button class="cta-button">SUBSCRIBE</button>
-            </div>
-        </div>
-    </section>
 </body>
 </html>
