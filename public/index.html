@@ -118,11 +118,11 @@
             const username = localStorage.getItem("username");
             const authButton = document.getElementById("auth-button");
     
-            if (username) {
-                authButton.textContent = username; 
-                authButton.disabled = true; 
-            }
+            if (username && username !== "undefined") { 
+            authButton.textContent = username; 
+            authButton.disabled = true; 
         }
+    }
     
         function handleAuth() {
             window.location.href = "register.html";
