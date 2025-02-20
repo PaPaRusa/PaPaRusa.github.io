@@ -106,7 +106,7 @@
         }
     </style>
     <script>
-        async function startTest() {
+                async function startTest() {
             const testerEmail = document.getElementById("testerEmail").value.trim();
             const testEmail = document.getElementById("testEmail").value.trim();
             
@@ -115,13 +115,23 @@
                 return;
             }
 
+            // Retrieve token from localStorage (make sure user is logged in)
+            const token = localStorage.getItem("jwtToken");
+            if (!token) {
+                alert("You must be logged in to send a test email.");
+                return;
+            }
+
             try {
-                const response = await fetch("/api/send-test-email", {
+                const response = await fetch("https://forti-phish.com/api/send-test-email", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}` // Attach token
+                    },
                     body: JSON.stringify({ testerEmail, testEmail })
                 });
-                
+
                 const data = await response.json();
                 if (response.ok) {
                     alert("Test email sent successfully!");
@@ -132,6 +142,7 @@
                 alert("Failed to send email.");
             }
         }
+
     </script>
 </head>
 <body>

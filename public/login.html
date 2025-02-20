@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Forti-Phish</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script>
+        async function loginUser() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const errorMessage = document.getElementById("error-message");
+            
+            errorMessage.textContent = ""; // Clear previous errors
+            
+            if (!email || !password) {
+                errorMessage.textContent = "All fields are required.";
+                return;
+            }
+            
+            try {
+                const response = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    localStorage.setItem("jwtToken", data.token);
+                    localStorage.setItem("userEmail", email);
+                    window.location.href = "index.html";
+                } else {
+                    errorMessage.textContent = data.error;
+                }
+            } catch (error) {
+                errorMessage.textContent = "Login failed. Please try again later.";
+            }
+        }
+
+        function checkLoginStatus() {
+            const userEmail = localStorage.getItem("userEmail");
+            if (userEmail) {
+                document.getElementById("register-button").textContent = userEmail;
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen" onload="checkLoginStatus()">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold mb-4">Login</h2>
+        <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 rounded text-black" required>
+        <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-3 rounded text-black" required>
+        <p id="error-message" class="text-red-500 text-sm"></p>
+        <button onclick="loginUser()" class="bg-blue-600 w-full p-2 rounded font-bold hover:bg-blue-500">Login</button>
+        <p class="text-sm mt-2">Don't have an account? <a href="register.html" class="text-blue-400">Register</a></p>
+    </div>
+</body>
+</html>

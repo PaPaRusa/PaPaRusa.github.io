@@ -64,17 +64,20 @@ app.post("/login", (req, res) => {
 });
 
 // Middleware to verify JWT
+// Middleware to verify JWT
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
-    if (!token) return res.sendStatus(401);
+
+    if (!token) return res.status(401).json({ error: "Access denied. No token provided." });
 
     jwt.verify(token, SECRET_KEY, (err, user) => {
-        if (err) return res.sendStatus(403);
+        if (err) return res.status(403).json({ error: "Invalid token." });
         req.user = user;
         next();
     });
 }
+
 
 // Protected API for sending phishing test email
 app.post("/api/send-test-email", authenticateToken, async (req, res) => {

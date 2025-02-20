@@ -3,82 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        html {
-            scroll-behavior: smooth;
+    <script>
+        async function registerUser() {
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
+            const errorMessage = document.getElementById("error-message");
+            
+            errorMessage.textContent = ""; // Clear previous errors
+            
+            if (!email || !password || !confirmPassword) {
+                errorMessage.textContent = "All fields are required.";
+                return;
+            }
+            
+            if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+                errorMessage.textContent = "Password must be at least 8 characters long, contain one uppercase letter, and one number.";
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "Passwords do not match.";
+                return;
+            }
+            
+            try {
+                const response = await fetch("/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    alert("Registration successful! You can now log in.");
+                    window.location.href = "login.html";
+                } else {
+                    errorMessage.textContent = data.error;
+                }
+            } catch (error) {
+                errorMessage.textContent = "Registration failed. Please try again later.";
+            }
         }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: black;
-            color: white;
-            overflow-x: hidden;
-        }
-        header {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        .header-space {
-            height: 80px;
-        }
-        .container {
-            max-width: 400px;
-            margin: auto;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            text-align: center;
-            margin-top: 100px;
-        }
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-            background: white;
-            color: black;
-        }
-        .cta-button {
-            background-color: #5C59F3;
-            color: white;
-            padding: 14px 32px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            margin-top: 15px;
-        }
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
-        }
-    </style>
+    </script>
 </head>
-<body>
-    <header>
-        <h1>Register</h1>
-    </header>
-    <div class="header-space"></div>
-    
-    <div class="container">
-        <h2>Create an Account</h2>
-        <input type="text" class="input-field" placeholder="Username" required>
-        <input type="email" class="input-field" placeholder="Email" required>
-        <input type="password" class="input-field" placeholder="Password" required>
-        <button class="cta-button">Register</button>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold mb-4">Register</h2>
+        <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 rounded text-black" required>
+        <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-3 rounded text-black" required>
+        <small class="text-gray-400 text-sm">Password must be at least 8 characters long, contain one uppercase letter, and one number.</small>
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" class="w-full p-2 mb-3 rounded text-black" required>
+        <p id="error-message" class="text-red-500 text-sm"></p>
+        <button onclick="registerUser()" class="bg-blue-600 w-full p-2 rounded font-bold hover:bg-blue-500">Register</button>
+        <p class="text-sm mt-2">Already have an account? <a href="login.html" class="text-blue-400">Login</a></p>
     </div>
 </body>
 </html>
