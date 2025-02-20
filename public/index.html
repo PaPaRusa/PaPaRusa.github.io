@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phishing Test Service</title>
+    <title>Home - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -12,7 +12,7 @@
         }
         body {
             font-family: 'Roboto', sans-serif;
-            background: black;
+            background: #13151a;
             color: white;
             overflow-x: hidden;
         }
@@ -21,7 +21,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 50px;
-            background: rgba(255, 255, 255, 0.1);
+            background: #101221;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             position: fixed;
             width: 100%;
@@ -29,50 +29,37 @@
             left: 0;
             z-index: 1000;
         }
-        .header-space {
-            height: 80px;
-        }
-        .nav-link {
-            margin-right: 30px;
-            font-size: 20px;
-            cursor: pointer;
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: white;
             font-weight: bold;
+            cursor: pointer;
             transition: color 0.3s ease;
         }
-        .nav-link:hover {
+        nav a:hover {
             color: #5C59F3;
         }
-        .hero {
-            text-align: center;
-            padding: 100px 20px 100px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
+        .header-space {
+            height: 100px;
         }
-        .hero h1 {
-            font-size: 42px;
-            font-weight: bold;
-            max-width: 90%;
-            background: linear-gradient(to right, #ffffff, #5C59F3);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            font-size: 18px;
-            margin-top: 15px;
-            max-width: 80%;
-            opacity: 0.9;
-        }
-        .cta-container {
+        .hero-section {
             display: flex;
             align-items: center;
-            gap: 15px;
-            margin-top: 25px;
-            flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
+            gap: 100px; 
+            padding: 100px 300px; 
+            text-align: left;
+        }
+        .hero-content {
+            max-width: 500px;
+            flex: 1;
+        }
+        .shield-image {
+            width: 100px; 
+            height: auto;
+            flex: 1;
+            margin-left: 100px; 
         }
         .cta-button {
             background-color: #5C59F3;
@@ -83,106 +70,113 @@
             cursor: pointer;
             font-weight: bold;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+        .free-test-button {
+            width: 100%;
         }
         .cta-button:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
         }
-        .email-input {
+        .input-field {
+            width: 100%;
             padding: 12px;
-            font-size: 16px;
-            border-radius: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
             border: none;
-            width: 250px;
             background: white;
             color: black;
-        }
-        .register-button {
-            background-color: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .shield-image {
-            margin-top: 30px;
-            width: 150px;
+            text-align: center;
         }
         .section {
-            padding: 80px 20px;
+            padding: 80px 50px;
             text-align: center;
         }
-        .pricing-container, .company-container {
+        .pricing {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
+            gap: 20px;
         }
-        .pricing-box, .company-box {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 300px;
-            text-align: center;
-        }
-        .footer {
-            background: #4A5568;
-            padding: 40px;
-            text-align: center;
-            color: white;
-            margin-top: 50px;
-            border-top-left-radius: 20px;
-            border-top-right-radius: 20px;
+        .plan {
+            background: #24273a;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
         }
     </style>
+    <script>
+        async function startTest() {
+            const testerEmail = document.getElementById("testerEmail").value.trim();
+            const testEmail = document.getElementById("testEmail").value.trim();
+            
+            if (!testerEmail || !testEmail) {
+                alert("Please enter both emails.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/send-test-email", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ testerEmail, testEmail })
+                });
+                
+                const data = await response.json();
+                if (response.ok) {
+                    alert("Test email sent successfully!");
+                } else {
+                    alert("Error: " + data.error);
+                }
+            } catch (error) {
+                alert("Failed to send email.");
+            }
+        }
+    </script>
 </head>
 <body>
     <header>
         <nav>
-            <a href="#home" class="nav-link">HOME</a>
-            <a href="#pricing" class="nav-link">PRICING</a>
-            <a href="#company" class="nav-link">COMPANY</a>
+            <a href="#home">HOME</a>
+            <a href="#pricing">PRICING</a>
+            <a href="#company">COMPANY</a>
         </nav>
-        <button id="registerButton" class="register-button" onclick="window.location.href='register.html'">REGISTER</button>
+        <button class="cta-button" onclick="window.location.href='register.html'">Register</button>
     </header>
     <div class="header-space"></div>
     
-    <section id="home" class="hero">
-        <h1>PROTECT YOUR BUSINESS FROM CYBER THREATS</h1>
-        <p>Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.</p>
-        <div class="cta-container">
-            <input type="email" id="emailInput" class="email-input" placeholder="Enter email for test" required>
-            <button id="freeTestButton" class="cta-button">START YOUR FREE TEST</button>
+    <div id="home" class="hero-section">
+        <div class="hero-content">
+            <h1 style="font-size: 3rem; font-weight: bold; background: linear-gradient(90deg, white, #a06cd5, #7d5ba6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Protect Your Business From Cyber Threats</h1>
+            <p>Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.</p>
+            <input type="email" id="testerEmail" class="input-field" placeholder="Your Email (youremail@mail.com)" required>
+            <input type="email" id="testEmail" class="input-field" placeholder="Email to Test (test@mail.com)" required>
+            <button class="cta-button free-test-button" onclick="startTest()">Start Your Free Test</button>
         </div>
-        <img src="images/download.png" alt="Shield" class="shield-image">
-    </section>
+        <img src="images/download.png" alt="Shield Logo" class="shield-image">
+    </div>
     
-    <section id="pricing" class="section">
-        <h2>PRICING</h2>
-        <div class="pricing-container">
-            <div class="pricing-box">
-                <h3>BASIC</h3>
+    <div id="pricing" class="section">
+        <h2>Pricing</h2>
+        <div class="pricing">
+            <div class="plan">
+                <h3>Basic</h3>
                 <p>$99/MONTH</p>
                 <p>UP TO 150 TESTS</p>
-                <button id="subscribebutton" class="cta-button" onclick="window.location.href='subscribe.html'">SUBSCRIBE</button>
+                <button class="cta-button" onclick="window.location.href='subscribe.html'">Subscribe</button>
             </div>
-            <div class="pricing-box">
-                <h3>PREMIUM</h3>
+            <div class="plan">
+                <h3>Premium</h3>
                 <p>$199/MONTH</p>
                 <p>UP TO 500 TESTS</p>
-                <button id="subscribebutton" class="cta-button" onclick="window.location.href='subscribe.html'">SUBSCRIBE</button>
+                <button class="cta-button" onclick="window.location.href='subscribe.html'">Subscribe</button>
             </div>
         </div>
-    </section>
+    </div>
     
-    <section id="company" class="section">
-        <h2>COMPANY</h2>
-        <div class="company-container">
-            <p>We are committed to helping businesses stay secure by providing real-world phishing tests and security training.</p>
-        </div>
-    </section>
+    <div id="company" class="section">
+        <h2>About Our Company</h2>
+        <p>Forti-Phish is dedicated to enhancing cybersecurity awareness by offering real-time phishing simulations to businesses worldwide.</p>
+    </div>
 </body>
 </html>

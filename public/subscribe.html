@@ -3,53 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscribe to Premium Plan</title>
+    <title>Subscribe</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1b1e2e;
+            color: white;
+            overflow-x: hidden;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #101221;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .header-space {
+            height: 100px;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 900px;
+            margin: auto;
+            padding: 40px;
+            background: #24273a;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .plans, .payment-form {
+            width: 48%;
+        }
+        .plan {
+            background: #35384d;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .select-button {
+            background: gray;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+        }
+        .select-button.active {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            background: white;
+            color: black;
+        }
+        .cta-button {
+            background-color: #5C59F3;
+            color: white;
+            padding: 14px 32px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+    </style>
+    <script>
+        function selectPlan(plan) {
+            document.querySelectorAll('.select-button').forEach(el => {
+                el.classList.remove('active');
+                el.textContent = 'SELECT';
+            });
+            plan.classList.add('active');
+            plan.textContent = 'SELECTED';
+        }
+        
+        function validatePayment() {
+            let isValid = true;
+            const errorMessage = document.getElementById('paymentError');
+            errorMessage.style.display = 'none';
+            
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const cardNumber = document.getElementById("cardNumber").value.trim();
+            const expiryMonth = document.getElementById("expiryMonth").value;
+            const expiryYear = document.getElementById("expiryYear").value;
+            const cvv = document.getElementById("cvv").value.trim();
+            
+            if (!name || !email || !cardNumber || !expiryMonth || !expiryYear || !cvv) {
+                errorMessage.textContent = "All fields are required.";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                errorMessage.textContent = "Invalid email format.";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            if (!/^\d{16}$/.test(cardNumber)) {
+                errorMessage.textContent = "Invalid card number. Must be 16 digits.";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            if (!/^\d{3,4}$/.test(cvv)) {
+                errorMessage.textContent = "Invalid CVV. Must be 3 or 4 digits.";
+                errorMessage.style.display = 'block';
+                return;
+            }
+            errorMessage.style.color = "green";
+            errorMessage.textContent = "Payment successful (for testing purposes).";
+            errorMessage.style.display = 'block';
+        }
+    </script>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-blue-600 text-white text-center py-6">
-        <h1 class="text-3xl font-bold">Subscribe to Our Premium Plan</h1>
-        <p class="mt-2 text-lg">Get monthly phishing tests, detailed reports, and advanced employee training.</p>
+<body>
+    <header>
+        <h1><a href="index.html" style="color: white; text-decoration: none; font-weight: bold; cursor: pointer; transition: color 0.3s ease;">forti-phish.com</a></h1>
+        <button class="cta-button">USERNAME</button>
     </header>
-
-    <section class="container mx-auto p-6 text-center">
-        <form id="subscribeForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 max-w-md mx-auto">
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your full name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+    <div class="header-space"></div>
+    
+    <div class="container">
+        <div class="plans">
+            <h2>Payment Information</h2>
+            <div class="plan">
+                <h3>Basic</h3>
+                <p>$99/MONTH</p>
+                <p>UP TO 150 TESTS</p>
+                <div class="select-button" onclick="selectPlan(this)">SELECT</div>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <div class="plan">
+                <h3>Premium</h3>
+                <p>$199/MONTH</p>
+                <p>UP TO 500 TESTS</p>
+                <div class="select-button" onclick="selectPlan(this)">SELECT</div>
             </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="plan">Select Plan</label>
-                <select id="plan" name="plan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                    <option value="premium">Premium - $99/month</option>
-                    <option value="enterprise">Enterprise - $199/month</option>
+        </div>
+        <div class="payment-form">
+            <input type="text" id="name" class="input-field" placeholder="Full Name" required>
+            <input type="email" id="email" class="input-field" placeholder="Email" required>
+            <input type="text" id="cardNumber" class="input-field" placeholder="Card Number" required>
+            <div style="display: flex; gap: 10px;">
+                <select id="expiryMonth" class="input-field" required>
+                    <option value="">Month</option>
+                    <option value="01">01</option>
+                    <option value="02">02</option>
+                    <option value="03">03</option>
+                    <option value="04">04</option>
+                    <option value="05">05</option>
+                    <option value="06">06</option>
+                    <option value="07">07</option>
+                    <option value="08">08</option>
+                    <option value="09">09</option>
+                    <option value="10">10</option>
+                    <option value="12">11</option>
+                    <option value="12">12</option>
+                </select>
+                <select id="expiryYear" class="input-field" required>
+                    <option value="">Year</option>
+                    <option value="2026">2025</option>
+                    <option value="2026">2026</option>
+                    <option value="2026">2027</option>
+                    <option value="2026">2028</option>
+                    <option value="2026">2029</option>
+                    <option value="2026">2030</option>
+                    <option value="2026">2031</option>
                 </select>
             </div>
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Subscribe Now</button>
-        </form>
-        <p id="confirmationMessage" class="mt-4 text-lg"></p>
-    </section>
-
-    <footer class="bg-blue-600 text-white text-center py-4">
-        <p>&copy; 2025 Phishing Shield | Secure Your Business</p>
-    </footer>
-
-    <script>
-        document.getElementById("subscribeForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const name = document.getElementById("name").value;
-            const email = document.getElementById("email").value;
-            const plan = document.getElementById("plan").value;
-            const confirmationMessage = document.getElementById("confirmationMessage");
-
-            // Simulate successful subscription
-            confirmationMessage.textContent = `✅ Thank you, ${name}! You've successfully subscribed to the ${plan} plan.`;
-            confirmationMessage.className = "text-green-600 mt-4";
-        });
-    </script>
+            <input type="text" id="cvv" class="input-field" placeholder="CVV" required>
+            <button class="cta-button" onclick="validatePayment()">Complete Payment</button>
+            <p id="paymentError" class="error-message"></p>
+        </div>
+    </div>
 </body>
 </html>
