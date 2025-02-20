@@ -16,6 +16,7 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+require("dotenv").config();
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
 // Database setup
