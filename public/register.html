@@ -12,37 +12,47 @@
             const password = document.getElementById("password").value.trim();
             const confirmPassword = document.getElementById("confirmPassword").value.trim();
             const errorMessage = document.getElementById("error-message");
-            const loginMessage = document.getElementById("successful-login");
-            
+            const successMessage = document.getElementById("successful-login");
+
+            // Ensure these elements exist before using them
+            if (!errorMessage || !successMessage) {
+                console.error("Error: Required elements are missing in register.html.");
+                return;
+            }
+
+            // Clear messages before validation
             errorMessage.textContent = "";
-            loginMessage.textContent = "";
-            
+            successMessage.textContent = "";
+
+            // Validation checks
             if (!username || !email || !password || !confirmPassword) {
                 errorMessage.textContent = "All fields are required.";
                 return;
             }
-            
+
             if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
                 errorMessage.textContent = "Password must be at least 8 characters long, contain one uppercase letter, and one number.";
                 return;
             }
-            
+
             if (password !== confirmPassword) {
                 errorMessage.textContent = "Passwords do not match.";
                 return;
             }
-            
+
             try {
                 const response = await fetch("/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username, email, password })
                 });
-                
+
                 const data = await response.json();
                 if (response.ok) {
-                    loginMessage.textContent = "You can now login!.";
-                    window.location.href = "login.html";
+                    successMessage.textContent = "Registration successful! Redirecting...";
+                    setTimeout(() => {
+                        window.location.href = "login.html";
+                    }, 1500); // ✅ 1.5-second delay for visibility
                 } else {
                     errorMessage.textContent = data.error;
                 }
@@ -61,6 +71,7 @@
         <small class="text-gray-400 text-sm">Password must be at least 8 characters long, contain one uppercase letter, and one number.</small>
         <input type="password" id="confirmPassword" placeholder="Confirm Password" class="w-full p-2 mb-3 rounded text-black" required>
         <p id="error-message" class="text-red-500 text-sm"></p>
+        <p id="successful-login" class="text-green-500 text-sm"></p>
         <button onclick="registerUser()" class="bg-blue-600 w-full p-2 rounded font-bold hover:bg-blue-500">Register</button>
         <p class="text-sm mt-2">Already have an account? <a href="login.html" class="text-blue-400">Login</a></p>
     </div>
