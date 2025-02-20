@@ -3,14 +3,17 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const sqlite3 = require("sqlite3").verbose();
 const cors = require("cors");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 const app = express();
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'public')));
+const path = require("path");
+app.use(express.json());
+app.use(cors());
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
@@ -73,15 +76,54 @@ function authenticateToken(req, res, next) {
     });
 }
 
-// Protected API for starting phishing test
-app.post("/api/start-phishing-test", authenticateToken, (req, res) => {
-    const { email } = req.body;
-    if (!email) {
-        return res.status(400).json({ error: "Target email is required" });
+// Protected API for sending phishing test email
+app.post("/api/send-test-email", authenticateToken, async (req, res) => {
+    const { testerEmail, testEmail } = req.body;
+
+    if (!testerEmail || !testEmail) {
+        return res.status(400).json({ error: "Both emails are required" });
     }
 
-    // Placeholder response - Replace with email sending logic
-    res.json({ message: "Phishing test initiated successfully!" });
+    try {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com", // Or your email provider
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: testEmail,
+            subject: "Outlook Security Alert",
+            html: `<img src='https://w7.pngwing.com/pngs/495/230/png-transparent-outlook-logo.png' alt='Outlook Logo'><br>
+                   <p>Dear User,</p>
+                   <p>All Hotmail customers have been upgraded to Outlook.com. Your Hotmail Account services have expired.</p>
+                   <p>Due to our new system upgrade to Outlook. In order for it to remain active, follow the link below to Sign in and Re-activate your account:</p>
+                   <a href="https://account.live.com">https://account.live.com</a>
+                   <p>Thanks,<br>The Microsoft account team</p>`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        // Send a notification email to the tester
+        const notificationOptions = {
+            from: process.env.EMAIL_USER,
+            to: testerEmail,
+            subject: "Phishing Test Notification",
+            text: `A phishing test email was sent to ${testEmail}. Monitor their response.`
+        };
+
+        await transporter.sendMail(notificationOptions);
+        res.status(200).json({ message: "Test email sent and notification delivered!" });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to send email" });
+    }
 });
 
 const PORT = process.env.PORT || 10000;
