@@ -48,7 +48,7 @@ app.post("/register", async (req, res) => {
 // Login endpoint
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
-    db.get("SELECT * FROM users WHERE email = ?", [email], async (err, user) => {
+    db.get("SELECT id, email, username, password FROM users WHERE email = ?", [email], async (err, user) => {
         if (err || !user) {
             return res.status(400).json({ error: "Invalid credentials" });
         }
@@ -59,12 +59,16 @@ app.post("/login", (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
-        res.json({ token, username: user.username || "User" }); 
+
+        if (user.username) {
+            res.json({ token, username: user.username }); // ✅ Send actual username
+        } else {
+            res.json({ token, username: "Guest" }); // Fallback if no username found
+        }
     });
 });
 
-// Middleware to verify JWT
-// Middleware to verify JWT
+
 function authenticateToken(req, res, next) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
