@@ -176,5 +176,44 @@
         <h2>About Our Company</h2>
         <p>Forti-Phish is dedicated to enhancing cybersecurity awareness by offering real-time phishing simulations to businesses worldwide.</p>
     </div>
+    <script>
+        async function startTest() {
+            const testerEmail = document.getElementById("testerEmail").value.trim();
+            const testEmail = document.getElementById("testEmail").value.trim();
+    
+            if (!testerEmail || !testEmail) {
+                alert("Please enter both emails.");
+                return;
+            }
+    
+            try {
+                const token = localStorage.getItem("token"); // Get JWT token
+                if (!token) {
+                    alert("You must be logged in to send a test email.");
+                    return;
+                }
+    
+                const response = await fetch("/api/send-test-email", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ testerEmail, testEmail })
+                });
+    
+                const data = await response.json();
+                if (response.ok) {
+                    alert("Test email sent successfully!");
+                } else {
+                    alert("Error: " + data.error);
+                }
+            } catch (error) {
+                console.error("Error sending email:", error);
+                alert("Failed to send email.");
+            }
+        }
+    </script>
+    
 </body>
 </html>
