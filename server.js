@@ -48,25 +48,32 @@ app.post("/register", async (req, res) => {
 // Login endpoint
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
+    
+    if (!email || !password) {
+        return res.status(400).json({ error: "Email and password are required." }); // ✅ Prevent empty requests
+    }
+
     db.get("SELECT id, email, username, password FROM users WHERE email = ?", [email], async (err, user) => {
-        if (err || !user) {
-            return res.status(400).json({ error: "Invalid credentials" });
+        if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+
+        if (!user) {
+            return res.status(400).json({ error: "Invalid email or password." }); // ✅ More detailed error
         }
 
         const isValid = await bcrypt.compare(password, user.password);
         if (!isValid) {
-            return res.status(400).json({ error: "Invalid credentials" });
+            return res.status(400).json({ error: "Invalid email or password." }); // ✅ Prevent guessing attacks
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
 
-        if (user.username) {
-            res.json({ token, username: user.username }); // ✅ Send actual username
-        } else {
-            res.json({ token, username: "Guest" }); // Fallback if no username found
-        }
+        res.json({ token, username: user.username || "Guest" }); // ✅ Send actual username
     });
 });
+
 
 
 function authenticateToken(req, res, next) {

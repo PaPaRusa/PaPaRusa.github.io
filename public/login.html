@@ -27,17 +27,13 @@
                 });
 
                 const data = await response.json();
-                if (response.ok) {
-                    localStorage.setItem("jwtToken", data.token);
-                    if (data.username) {
-                            localStorage.setItem("username", data.username);
-                        } else {
-                            console.error("Username missing in server response.");
-                        }
-                    window.location.href = "index.html"; // Redirect after login
-                } else {
-                    errorMessage.textContent = data.error;
-                }
+        if (response.ok) {
+            localStorage.setItem("jwtToken", data.token);
+            localStorage.setItem("username", data.username); // ✅ Store username
+            window.location.href = "index.html";
+        } else {
+            errorMessage.textContent = data.error; // ✅ Show server errors
+        }
             } catch (error) {
                 errorMessage.textContent = "Login failed. Please try again later.";
             }
