@@ -56,10 +56,10 @@
             flex: 1;
         }
         .shield-image {
-            width: 500px; /* Make shield bigger */
+            width: 500px; 
             height: auto;
             flex: 1;
-            margin-left: 100px; /* Adjust this value to push the shield right */
+            margin-left: 100px; 
         }
         .cta-button {
             background-color: #5C59F3;
@@ -104,23 +104,32 @@
             border-radius: 10px;
             width: 250px;
         }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, white, #a06cd5, #7d5ba6);
+            -webkit-background-clip: text;
+            background-clip: text; /* Standard property */
+            -webkit-text-fill-color: transparent;
+        }
     </style>
     <script>
         function checkLogin() {
-            const user = localStorage.getItem("username");
+            const username = localStorage.getItem("username");
             const authButton = document.getElementById("auth-button");
-            if (user) {
-                authButton.textContent = user;
-                authButton.disabled = true;
+    
+            if (username) {
+                authButton.textContent = username; 
+                authButton.disabled = true; 
             }
         }
-
+    
         function handleAuth() {
             window.location.href = "register.html";
         }
-
+    
         window.onload = checkLogin;
-    </script>
+    </script>    
 </head>
 <body>
     <header>

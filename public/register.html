@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <script>
         async function registerUser() {
+            const username = document.getElementById("username").value.trim();
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
             const confirmPassword = document.getElementById("confirmPassword").value.trim();
             const errorMessage = document.getElementById("error-message");
+            const loginMessage = document.getElementById("successful-login");
             
-            errorMessage.textContent = ""; // Clear previous errors
+            errorMessage.textContent = "";
+            loginMessage.textContent = "";
             
-            if (!email || !password || !confirmPassword) {
+            if (!username || !email || !password || !confirmPassword) {
                 errorMessage.textContent = "All fields are required.";
                 return;
             }
@@ -33,12 +36,12 @@
                 const response = await fetch("/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ username, email, password })
                 });
                 
                 const data = await response.json();
                 if (response.ok) {
-                    alert("Registration successful! You can now log in.");
+                    loginMessage.textContent = "You can now login!.";
                     window.location.href = "login.html";
                 } else {
                     errorMessage.textContent = data.error;
@@ -52,6 +55,7 @@
 <body class="bg-gray-900 text-white flex items-center justify-center h-screen">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-2xl font-bold mb-4">Register</h2>
+        <input type="text" id="username" placeholder="Username" class="w-full p-2 mb-3 rounded text-black" required>
         <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 rounded text-black" required>
         <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-3 rounded text-black" required>
         <small class="text-gray-400 text-sm">Password must be at least 8 characters long, contain one uppercase letter, and one number.</small>

@@ -10,26 +10,26 @@
             const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
             const errorMessage = document.getElementById("error-message");
-            
+
             errorMessage.textContent = ""; // Clear previous errors
-            
+
             if (!email || !password) {
                 errorMessage.textContent = "All fields are required.";
                 return;
             }
-            
+
             try {
                 const response = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password })
                 });
-                
+
                 const data = await response.json();
                 if (response.ok) {
                     localStorage.setItem("jwtToken", data.token);
-                    localStorage.setItem("userEmail", email);
-                    window.location.href = "index.html";
+                    localStorage.setItem("username", data.username); // Store username
+                    window.location.href = "index.html"; // Redirect after login
                 } else {
                     errorMessage.textContent = data.error;
                 }
@@ -37,16 +37,9 @@
                 errorMessage.textContent = "Login failed. Please try again later.";
             }
         }
-
-        function checkLoginStatus() {
-            const userEmail = localStorage.getItem("userEmail");
-            if (userEmail) {
-                document.getElementById("register-button").textContent = userEmail;
-            }
-        }
     </script>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen" onload="checkLoginStatus()">
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-2xl font-bold mb-4">Login</h2>
         <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 rounded text-black" required>
