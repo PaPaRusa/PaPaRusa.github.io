@@ -8,12 +8,13 @@
     <script>
         async function loginUser() {
             const email = document.getElementById("email").value.trim();
+            const username = document.getElementById("username").value.trim();
             const password = document.getElementById("password").value.trim();
             const errorMessage = document.getElementById("error-message");
 
             errorMessage.textContent = ""; // Clear previous errors
 
-            if (!email || !password) {
+            if (!email || !password || !username) {
                 errorMessage.textContent = "All fields are required.";
                 return;
             }
@@ -43,6 +44,7 @@
     <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
         <h2 class="text-2xl font-bold mb-4">Login</h2>
         <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 rounded text-black" required>
+        <input type="username" id="username" placeholder="Username" class="w-full p-2 mb-3 rounded text-black" required>
         <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-3 rounded text-black" required>
         <p id="error-message" class="text-red-500 text-sm"></p>
         <button onclick="loginUser()" class="bg-blue-600 w-full p-2 rounded font-bold hover:bg-blue-500">Login</button>
