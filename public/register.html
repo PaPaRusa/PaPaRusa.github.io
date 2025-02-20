@@ -3,44 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Phishing Test Service</title>
+    <title>Register</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: black;
+            color: white;
+            overflow-x: hidden;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .header-space {
+            height: 80px;
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 100px;
+        }
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            background: white;
+            color: black;
+        }
+        .cta-button {
+            background-color: #5C59F3;
+            color: white;
+            padding: 14px 32px;
+            font-size: 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 15px;
+        }
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
+        }
+    </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
-    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 class="text-2xl font-bold text-center text-blue-600">Create an Account</h2>
-        <form id="registerForm" class="mt-4">
-            <label class="block text-gray-700">Email</label>
-            <input type="email" id="registerEmail" class="w-full p-2 border rounded mb-3" required>
-            
-            <label class="block text-gray-700">Password</label>
-            <input type="password" id="registerPassword" class="w-full p-2 border rounded mb-3" required minlength="6">
-            
-            <button type="submit" class="bg-blue-600 text-white w-full p-2 rounded">Register</button>
-        </form>
-        <p class="text-center text-gray-600 mt-3">Already have an account? <a href="/login" class="text-blue-600">Login</a></p>
+<body>
+    <header>
+        <h1>Register</h1>
+    </header>
+    <div class="header-space"></div>
+    
+    <div class="container">
+        <h2>Create an Account</h2>
+        <input type="text" class="input-field" placeholder="Username" required>
+        <input type="email" class="input-field" placeholder="Email" required>
+        <input type="password" class="input-field" placeholder="Password" required>
+        <button class="cta-button">Register</button>
     </div>
-
-    <script>
-        document.getElementById("registerForm").addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const email = document.getElementById("registerEmail").value;
-            const password = document.getElementById("registerPassword").value;
-            
-            const response = await fetch("/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password })
-            });
-            
-            const data = await response.json();
-            if (response.ok) {
-                alert("Registration successful! Redirecting to login...");
-                window.location.href = "/login";
-            } else {
-                alert(data.error);
-            }
-        });
-    </script>
 </body>
 </html>
