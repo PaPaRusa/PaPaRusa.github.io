@@ -83,20 +83,27 @@ function authenticateToken(req, res, next) {
 }
 
 // ** Send Phishing Test Email API **
-app.post("/api/send-test-email", authenticateToken, async (req, res) => {
-    const { testerEmail, testEmail } = req.body;
-
-    if (!testerEmail || !testEmail) {
-        return res.status(400).json({ error: "Both emails are required" });
-    }
-
+app.post("/api/send-test-email", async (req, res) => {
     try {
+        const { testerEmail, testEmail } = req.body;
+        if (!testerEmail || !testEmail) {
+            return res.status(400).json({ error: "Both emails are required." });
+        }
+
+        // Debugging logs
+        console.log("Received email request from:", testerEmail);
+        console.log("Sending test email to:", testEmail);
+
+        // Ensure nodemailer is properly set up
+        const nodemailer = require("nodemailer");
+
+        // Setup transporter
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 465,
             secure: true,
             auth: {
-                user: process.env.EMAIL_USER,
+                user: process.env.EMAIL_USER, 
                 pass: process.env.EMAIL_PASS
             }
         });
@@ -119,20 +126,14 @@ app.post("/api/send-test-email", authenticateToken, async (req, res) => {
         };
 
         await transporter.sendMail(mailOptions);
-        
-        // Send notification email to tester
-        const testerNotification = {
-            from: process.env.EMAIL_USER,
-            to: testerEmail,
-            subject: "Phishing Test Sent Successfully",
-            text: `Your phishing test email was successfully sent to ${testEmail}.`
-        };
-        await transporter.sendMail(testerNotification);
+        console.log("✅ Email sent successfully!");
 
+        // Send success response
         res.status(200).json({ message: "Test email sent!" });
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Failed to send email" });
+        console.error("🚨 Error sending email:", error);
+        res.status(500).json({ error: "Failed to send email. Check server logs for details." });
     }
 });
 
