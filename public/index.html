@@ -104,32 +104,24 @@
             border-radius: 10px;
             width: 250px;
         }
-        h1 {
-            font-size: 3rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, white, #a06cd5, #7d5ba6);
-            -webkit-background-clip: text;
-            background-clip: text; /* Standard property */
-            -webkit-text-fill-color: transparent;
-        }
     </style>
     <script>
-        function checkLogin() {
-            const username = localStorage.getItem("username");
-            const authButton = document.getElementById("auth-button");
-    
-            if (username && username !== "undefined" && username !== "null") { 
-                authButton.textContent = username; 
-                authButton.disabled = true; 
-            } else {
-                authButton.textContent = "Register";
-                authButton.onclick = function() { window.location.href = "register.html"; };
-            }
+            function checkLogin() {
+        const username = localStorage.getItem("username");
+        const authButton = document.getElementById("auth-button");
+
+        if (username) {
+            authButton.textContent = username; 
+            authButton.onclick = function () {
+                window.location.href = "account.html"; // Redirect to Account Settings
+            };
+        }
+    }
 
         function handleAuth() {
             window.location.href = "register.html";
         }
-        }
+    
         window.onload = checkLogin;
     </script>    
 </head>
@@ -143,7 +135,8 @@
         <button class="cta-button" id="auth-button" onclick="handleAuth()">Register</button>
     </header>
     <div class="header-space"></div>
-  <div id="home" class="hero-section">
+  
+    <div id="home" class="hero-section">
         <div class="hero-content">
             <h1 style="font-size: 3rem; font-weight: bold; background: linear-gradient(90deg, white, #a06cd5, #7d5ba6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Protect Your Business From Cyber Threats</h1>
             <p>Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.</p>
@@ -171,7 +164,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="company" class="section">
         <h2>About Our Company</h2>
         <p>Forti-Phish is dedicated to enhancing cybersecurity awareness by offering real-time phishing simulations to businesses worldwide.</p>
@@ -214,6 +207,5 @@
             }
         }
     </script>
-    
 </body>
 </html>

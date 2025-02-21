@@ -5,53 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="stylesheet" href="main.css"> <!-- Linking external CSS -->
+    <style>
+        /* Center everything */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1B1E2E;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        /* Main container */
+        .container {
+            display: flex;
+            width: 1200px;
+            height: 600px;
+            background: #1A1C2C;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* Back to Home Button */
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: #5C59F3;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .back-home:hover {
+            background: #4a47d1;
+        }
+
+        /* Left Section (Text & Logo) */
+        .left-section {
+            flex: 1;
+            padding: 50px;
+            background: #161827;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .left-section img {
+            width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .left-section h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .left-section p {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Right Section (Login Box) */
+        .right-section {
+            flex: 1;
+            padding: 40px;
+            background: #222437;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .right-section h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, white, #a06cd5, #7d5ba6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Input fields */
+        .input-field {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+            background: white;
+            color: black;
+            text-align: center;
+        }
+
+        /* Login Button */
+        .login-button {
+            width: 80%;
+            padding: 12px;
+            background-color: #5C59F3;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-button:hover {
+            background-color: #4a47d1;
+        }
+
+        /* Register text */
+        .register-text {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .register-text a {
+            color: #5C59F3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Back to Home Button -->
+        <a href="index.html" class="back-home">← Back to Home</a>
+
+        <!-- Left Section: Logo & Description -->
+        <div class="left-section">
+            <img src="images/v1_71.png" alt="Forti-Phish Logo">
+            <h1>Phishing Protection-as-a-Service</h1>
+            <p>Empowering businesses to detect, prevent, and educate against phishing attacks.</p>
+        </div>
+
+        <!-- Right Section: Login Form -->
+        <div class="right-section">
+            <h2>LOG-IN</h2>
+            <input type="email" id="email" placeholder="Email" class="input-field" required>
+            <input type="text" id="username" placeholder="Username" class="input-field" required>
+            <input type="password" id="password" placeholder="Password" class="input-field" required>
+            <p id="error-message" class="text-red-500 text-sm"></p>
+            <button onclick="loginUser()" class="login-button">Login</button>
+            <p class="register-text">Don't have an account? <a href="register.html">Register</a></p>
+        </div>
+    </div>
+
     <script>
         async function loginUser() {
             const email = document.getElementById("email").value.trim();
             const username = document.getElementById("username").value.trim();
             const password = document.getElementById("password").value.trim();
             const errorMessage = document.getElementById("error-message");
-
-            errorMessage.textContent = ""; // Clear previous errors
-
-            if (!email || !password || !username) {
+            errorMessage.textContent = "";
+            
+            if (!email || !username || !password) {
                 errorMessage.textContent = "All fields are required.";
                 return;
             }
-
+            
             try {
                 const response = await fetch("/login", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
+                    body: JSON.stringify({ email, username, password })
                 });
-
+                
                 const data = await response.json();
-        if (response.ok) {
-            console.log("Login successful! Storing token and username...");
-            localStorage.setItem("token", data.token);  
-            localStorage.setItem("username", data.username);  
-            console.log("Stored Token:", localStorage.getItem("token"));
-            console.log("Stored Username:", localStorage.getItem("username"));
-            window.location.href = "index.html"; // Redirect to home
-        } else {
-            errorMessage.textContent = data.error;
+                if (response.ok) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("username", data.username);
+                    window.location.href = "index.html";
+                } else {
+                    errorMessage.textContent = data.error;
+                }
+            } catch (error) {
+                errorMessage.textContent = "Login failed. Please try again.";
+            }
         }
-    } catch (error) {
-        errorMessage.textContent = "Login failed. Please try again.";
-    }
-}
     </script>
-</head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
-    <div class="bg-gray-800 p-6 rounded-lg shadow-lg w-96">
-        <h2 class="text-2xl font-bold mb-4">Login</h2>
-        <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 rounded text-black" required>
-        <input type="username" id="username" placeholder="Username" class="w-full p-2 mb-3 rounded text-black" required>
-        <input type="password" id="password" placeholder="Password" class="w-full p-2 mb-3 rounded text-black" required>
-        <p id="error-message" class="text-red-500 text-sm"></p>
-        <button onclick="loginUser()" class="bg-blue-600 w-full p-2 rounded font-bold hover:bg-blue-500">Login</button>
-        <p class="text-sm mt-2">Don't have an account? <a href="register.html" class="text-blue-400">Register</a></p>
-    </div>
 </body>
 </html>
