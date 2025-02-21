@@ -26,6 +26,13 @@ db.serialize(() => {
         password TEXT NOT NULL
     )`);
 });
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS phishing_clicks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT,
+        clicked_at TEXT
+    )`);
+});
 
 // ** Register API **
 app.post("/register", async (req, res) => {
@@ -108,22 +115,25 @@ app.post("/api/send-test-email", async (req, res) => {
             }
         });
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: testEmail,
-            subject: "Security Alert - Action Required",
-            html: `
-                <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd;">
-                    <h2 style="color: #0072c6;">Outlook Security Notice</h2>
-                    <p>Dear User,</p>
-                    <p>All Hotmail customers have been upgraded to Outlook.com. Your Hotmail account services have expired.</p>
-                    <p>To continue using your account, please verify your account:</p>
-                    <p><a href="https://account.live.com" style="color: #0072c6; font-weight: bold;">Verify Now</a></p>
-                    <p>Thanks,</p>
-                    <p>The Microsoft Account Team</p>
-                </div>
-            `
-        };
+        const trackingUrl = `https://forti-phish.com/api/track-click?email=${encodeURIComponent(testEmail)}`;
+
+            const mailOptions = {
+                from: process.env.EMAIL_USER,
+                to: testEmail,
+                subject: "Security Alert - Action Required",
+                html: `
+                    <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd;">
+                        <h2 style="color: #0072c6;">Outlook Security Notice</h2>
+                        <p>Dear User,</p>
+                        <p>All Hotmail customers have been upgraded to Outlook.com. Your Hotmail account services have expired.</p>
+                        <p>To continue using your account, please verify your account:</p>
+                        <p><a href="${trackingUrl}" style="color: #0072c6; font-weight: bold;">Verify Now</a></p>
+                        <p>Thanks,</p>
+                        <p>The Microsoft Account Team</p>
+                    </div>
+                `
+            };
+
 
         await transporter.sendMail(mailOptions);
         console.log("✅ Email sent successfully!");
@@ -141,6 +151,57 @@ app.post("/api/send-test-email", async (req, res) => {
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+app.get("/api/track-click", async (req, res) => {
+    const { email } = req.query;
+
+    if (!email) {
+        return res.status(400).send("Invalid request");
+    }
+
+    console.log(`User clicked the link: ${email}`);
+
+    // Save click event to the database
+    db.run("INSERT INTO phishing_clicks (email, clicked_at) VALUES (?, ?)", [email, new Date().toISOString()], (err) => {
+        if (err) {
+            console.error("Error saving click:", err);
+        }
+    });
+
+    // Notify tester via email
+    const testerEmail = process.env.TESTER_EMAIL; // Set this in .env or database
+    const alertMailOptions = {
+        from: process.env.EMAIL_USER,
+        to: testerEmail,
+        subject: "Phishing Alert - User Clicked!",
+        text: `The user ${email} clicked the phishing link at ${new Date().toISOString()}`
+    };
+
+    try {
+        const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+
+        transporter.sendMail(alertMailOptions, (error, info) => {
+            if (error) {
+                console.error("Error sending notification:", error);
+            } else {
+                console.log("Tester notified:", info.response);
+            }
+        });
+    } catch (error) {
+        console.error("Error setting up mail transporter:", error);
+    }
+
+    // Redirect user to a training page (or real phishing site)
+    res.redirect("https://your-training-page.com");
+});
+
 
 // ** Start Server **
 const PORT = process.env.PORT || 10000;
