@@ -28,16 +28,19 @@
 
                 const data = await response.json();
         if (response.ok) {
-            localStorage.setItem("jwtToken", data.token);
-            localStorage.setItem("username", data.username); // ✅ Store username
-            window.location.href = "index.html";
+            console.log("Login successful! Storing token and username...");
+            localStorage.setItem("token", data.token);  
+            localStorage.setItem("username", data.username);  
+            console.log("Stored Token:", localStorage.getItem("token"));
+            console.log("Stored Username:", localStorage.getItem("username"));
+            window.location.href = "index.html"; // Redirect to home
         } else {
-            errorMessage.textContent = data.error; // ✅ Show server errors
+            errorMessage.textContent = data.error;
         }
-            } catch (error) {
-                errorMessage.textContent = "Login failed. Please try again later.";
-            }
-        }
+    } catch (error) {
+        errorMessage.textContent = "Login failed. Please try again.";
+    }
+}
     </script>
 </head>
 <body class="bg-gray-900 text-white flex items-center justify-center h-screen">
