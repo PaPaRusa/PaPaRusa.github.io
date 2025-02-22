@@ -10,6 +10,33 @@
         html {
             scroll-behavior: smooth;
         }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #13151a;
+            color: white;
+            overflow-x: hidden;
+        }
+        .canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #101221;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
         .footer {
             position: fixed;
             left: 0;
@@ -49,26 +76,6 @@
             text-decoration: underline;
         }
 
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #13151a;
-            color: white;
-            overflow-x: hidden;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: #101221;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
         nav a {
             margin: 0 15px;
             text-decoration: none;
@@ -144,13 +151,7 @@
             border-radius: 10px;
             width: 250px;
         }
-        canvas {
-            display: block;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
+        
     </style>
     <script>
             function checkLogin() {
@@ -173,6 +174,9 @@
     </script>    
 </head>
 <body>
+    <div class="canvas-container">
+        <canvas id="particleCanvas"></canvas>
+    </div>
     <header>
         <nav>
             <a href="#home">HOME</a>
@@ -263,6 +267,73 @@
             <a href="terms.html">Terms of Service</a> | <a href="privacy.html">Privacy Policy</a>
         </div>
     </footer>
-       
+    <script>
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+        const particleCount = 150;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() * 0.5 - 0.25);
+                this.speedY = (Math.random() * 0.5 - 0.25);
+            }
+            update(mouse) {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+                
+                let dx = mouse.x - this.x;
+                let dy = mouse.y - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 100) {
+                    this.x -= dx * 0.02;
+                    this.y -= dy * 0.02;
+                }
+            }
+            draw() {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animateParticles(mouse) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update(mouse);
+                particle.draw();
+            });
+            requestAnimationFrame(() => animateParticles(mouse));
+        }
+
+        let mouse = { x: undefined, y: undefined };
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        initParticles();
+        animateParticles(mouse);
+    </script>
 </body>
 </html>
