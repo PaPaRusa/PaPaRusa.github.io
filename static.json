@@ -1,0 +1,13 @@
+{
+    "redirects": [
+      { "source": "/subscribe", "destination": "/subscribe.html", "type": 200 },
+      { "source": "/account", "destination": "/account.html", "type": 200 },
+      { "source": "/home", "destination": "/index.html", "type": 200 },
+      { "source": "/login", "destination": "/login.html", "type": 200 },
+      { "source": "/privacy", "destination": "/privacy.html", "type": 200 },
+      { "source": "/register", "destination": "/register.html", "type": 200 },
+      { "source": "/terms", "destination": "/terms.html", "type": 200 }
+    ]
+  }
+  
+        
