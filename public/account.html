@@ -5,141 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Settings - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #13151a;
-            color: white;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        header {
-            width: 100%;
-            background: #101221;
-            padding: 15px 50px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #101221;
-            color: white;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            height: 30px;
-        }
-
-        .footer-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .footer-logo {
-            height: 30px;
-            margin-right: 10px;
-        }
-
-        .footer-right {
-            font-size: 14px;
-        }
-
-        .footer-right a {
-            color: white;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        .footer-right a:hover {
-            text-decoration: underline;
-        }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #5C59F3;
-        }
-        .container {
-            width: 50%;
-            margin-top: 120px;
-            background: #1a1c2c;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        }
-        h2 {
-            font-size: 26px;
-            font-weight: bold;
-            text-align: center;
-            background: linear-gradient(90deg, white, #a06cd5, #7d5ba6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .info-box {
-            display: flex;
-            justify-content: space-between;
-            background: #2b2e4a;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            align-items: center;
-        }
-        .info-box span {
-            font-size: 18px;
-        }
-        .edit-btn {
-            background: none;
-            border: none;
-            color: #5C59F3;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .edit-btn:hover {
-            color: #8c88f3;
-        }
-        .logout-btn {
-            color: red;
-            text-align: center;
-            cursor: pointer;
-            font-weight: bold;
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-        }
-        .logout-btn:hover {
-            text-decoration: underline;
-        }
-        input {
-            background: white;
-            color: black;
-            border: none;
-            padding: 8px;
-            border-radius: 5px;
-            width: 60%;
-        }
-    </style>
+    <link rel="stylesheet" href="public/style.css">
 </head>
-<body>
-    <header>
+<body class="body-account">
+    <header class="header-account">
         <nav style="display: flex; align-items: center; gap: 20px;">
             <a href="index.html#home">
                 <img src="images/v1_71.png" alt="Logo" style="height: 40px;">
@@ -151,7 +20,7 @@
     </header>
     
     <div class="container">
-        <h2>Account Settings</h2>
+        <h2 class="h2-account">Account Settings</h2>
 
         <div class="info-box">
             <span>Username: <strong id="username">user1</strong></span>

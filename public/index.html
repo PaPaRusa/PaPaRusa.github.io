@@ -6,153 +6,7 @@
     <title>Home - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #13151a;
-            color: white;
-            overflow-x: hidden;
-        }
-        .canvas-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-        }
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            background: #101221;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-        }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #101221;
-            color: white;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            height: 30px;
-        }
-
-        .footer-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .footer-logo {
-            height: 30px;
-            margin-right: 10px;
-        }
-
-        .footer-right {
-            font-size: 14px;
-        }
-
-        .footer-right a {
-            color: white;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        .footer-right a:hover {
-            text-decoration: underline;
-        }
-
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        nav a:hover {
-            color: #5C59F3;
-        }
-        .header-space {
-            height: 100px;
-        }
-        .hero-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 100px; 
-            padding: 100px 300px; 
-            text-align: left;
-        }
-        .hero-content {
-            max-width: 500px;
-            flex: 1;
-        }
-        .shield-image {
-            width: 500px; 
-            height: auto;
-            flex: 1;
-            margin-left: 100px; 
-        }
-        .cta-button {
-            background-color: #5C59F3;
-            color: white;
-            padding: 14px 32px;
-            font-size: 18px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            margin-top: 10px;
-        }
-        .free-test-button {
-            width: 100%;
-        }
-        .cta-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
-        }
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: none;
-            background: white;
-            color: black;
-            text-align: center;
-        }
-        .section {
-            padding: 80px 50px;
-            text-align: center;
-        }
-        .pricing {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .plan {
-            background: #24273a;
-            padding: 20px;
-            border-radius: 10px;
-            width: 250px;
-        }
-        
-    </style>
+    <link rel="stylesheet" href="public/style.css">
     <script>
             function checkLogin() {
         const username = localStorage.getItem("username");
@@ -173,11 +27,11 @@
         window.onload = checkLogin;
     </script>    
 </head>
-<body>
-    <div class="canvas-container">
+<body class="body-index">
+    <div class="canvas-container-index">
         <canvas id="particleCanvas"></canvas>
     </div>
-    <header>
+    <header class="header-index">
         <nav>
             <a href="#home">HOME</a>
             <a href="#pricing">PRICING</a>
@@ -196,17 +50,17 @@
             </div>
         </div>
             </header>
-    <div class="header-space"></div>
+    <div class="header-space-index"></div>
   
-    <div id="home" class="hero-section">
-        <div class="hero-content">
+    <div id="home" class="hero-section-index">
+        <div class="hero-content-index">
             <h1 style="font-size: 3rem; font-weight: bold; background: linear-gradient(90deg, white, #a06cd5, #7d5ba6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Protect Your Business From Cyber Threats</h1>
             <p>Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.</p>
             <input type="email" id="testerEmail" class="input-field" placeholder="Your Email (youremail@mail.com)" required>
             <input type="email" id="testEmail" class="input-field" placeholder="Email to Test (test@mail.com)" required>
-            <button class="cta-button free-test-button" onclick="startTest()">Start Your Free Test</button>
+            <button class="cta-button-index free-test-button" onclick="startTest()">Start Your Free Test</button>
         </div>
-        <img src="images/v1_71.png" alt="Shield Logo" class="shield-image">
+        <img src="images/v1_71.png" alt="Shield Logo" class="shield-image-index">
     </div>
 
     <div id="pricing" class="section">
