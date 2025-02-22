@@ -16,7 +16,7 @@ const SECRET_KEY = process.env.JWT_SECRET || "supersecretkey";
 
 // ✅ PostgreSQL Connection
 const pool = new Pool({
-    connectionString: "postgresql://forti_phish_db_user:qWdSORwgdGMZZv7ex8xiqejy413wwnxm@dpg-cus9d3ofnakc73f1chqg-a/forti_phish_db",
+    connectionString: process.env.DATABASE_URL || "postgresql://forti_phish_db_user:qWdSORwgdGMZZv7ex8xiqejy413wwnxm@dpg-cus9d3ofnakc73f1chqg-a/forti_phish_db",
     ssl: { rejectUnauthorized: false }
 });
 
@@ -57,7 +57,7 @@ app.post("/register", async (req, res) => {
         await pool.query("INSERT INTO users (email, username, password) VALUES ($1, $2, $3)", [email, username, hashedPassword]);
         res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
-        console.error("Registration error:", error);
+        console.error("🚨 Registration error:", error);
         res.status(400).json({ error: "Email or username already taken" });
     }
 });
@@ -82,9 +82,14 @@ app.post("/login", async (req, res) => {
 
         res.json({ token, username: user.username, email: user.email });
     } catch (error) {
-        console.error("Login error:", error);
+        console.error("🚨 Login error:", error);
         res.status(500).json({ error: "Login failed" });
     }
+});
+
+// ✅ Logout API (Optional)
+app.post("/logout", (req, res) => {
+    res.json({ message: "User logged out successfully" });
 });
 
 // ✅ Middleware to Verify JWT
