@@ -183,8 +183,19 @@
             <a href="#pricing">PRICING</a>
             <a href="#company">COMPANY</a>
         </nav>
-        <button class="cta-button" id="auth-button" onclick="handleAuth()">Register</button>
-    </header>
+        <div id="auth-section">
+            <!-- Register Button (Shown if user is NOT logged in) -->
+            <a id="register-btn" href="register.html" style="color: white; text-decoration: none; font-weight: bold; padding: 10px 15px; border: 1px solid white; border-radius: 5px;">Register</a>
+        
+            <!-- User Profile (Shown if user IS logged in) -->
+            <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
+                <a href="account.html">
+                    <img src="images/avatar.png" alt="User Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                </a>
+                <span id="username" style="color: white; font-weight: bold;"></span>
+            </div>
+        </div>
+            </header>
     <div class="header-space"></div>
   
     <div id="home" class="hero-section">
@@ -335,5 +346,21 @@
         initParticles();
         animateParticles(mouse);
     </script>
+    <script>
+        // Simulating fetching user data (Replace with actual backend logic)
+        const user = localStorage.getItem("username"); // Get stored username
+    
+        if (user) {
+            // User is logged in: Show profile, hide register button
+            document.getElementById("register-btn").style.display = "none";
+            document.getElementById("user-profile").style.display = "flex";
+            document.getElementById("username").innerText = `Hello, ${user}`;
+        } else {
+            // User is NOT logged in: Show register button, hide profile
+            document.getElementById("register-btn").style.display = "inline-block";
+            document.getElementById("user-profile").style.display = "none";
+        }
+    </script>
+    
 </body>
 </html>
