@@ -182,9 +182,30 @@
     </script>
 </head>
 <body>
+    <script>
+        function checkLogin() {
+    const username = localStorage.getItem("username");
+    const authButton = document.getElementById("auth-button");
+
+    if (username) {
+        authButton.textContent = username; 
+        authButton.onclick = function () {
+            window.location.href = "account.html"; // Redirect to Account Settings
+        };
+    }
+}
+
+    function handleAuth() {
+        window.location.href = "register.html";
+    }
+
+    window.onload = checkLogin;
+</script>
     <header>
-        <h1><a href="index.html" style="color: white; text-decoration: none; font-weight: bold; cursor: pointer; transition: color 0.3s ease;">forti-phish.com</a></h1>
-        <button class="cta-button">USERNAME</button>
+        <a href="index.html" style="color: white; text-decoration: none; font-weight: bold; cursor: pointer; transition: color 0.3s ease;">
+            <img src="images/v1_71.png" alt="Forti-Phish Logo" style="height: 50px;">
+          </a> 
+          <button class="cta-button" id="auth-button" onclick="handleAuth()">Register</button>
     </header>
     <div class="header-space"></div>
     
