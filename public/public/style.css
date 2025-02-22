@@ -1,0 +1,227 @@
+.body-account {
+    font-family: 'Roboto', sans-serif;
+    background: #13151a;
+    color: white;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.header-account {
+    width: 100%;
+    background: #101221;
+    padding: 15px 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #101221;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    height: 30px;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo {
+    height: 30px;
+    margin-right: 10px;
+}
+
+.footer-right {
+    font-size: 14px;
+}
+
+.footer-right a {
+    color: white;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.footer-right a:hover {
+    text-decoration: underline;
+}
+nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+nav a:hover {
+    color: #5C59F3;
+}
+.container {
+    width: 50%;
+    margin-top: 120px;
+    background: #1a1c2c;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.h2-account {
+    font-size: 26px;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(90deg, white, #a06cd5, #7d5ba6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.info-box {
+    display: flex;
+    justify-content: space-between;
+    background: #2b2e4a;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+.info-box span {
+    font-size: 18px;
+}
+.edit-btn {
+    background: none;
+    border: none;
+    color: #5C59F3;
+    cursor: pointer;
+    font-weight: bold;
+}
+.edit-btn:hover {
+    color: #8c88f3;
+}
+.logout-btn {
+    color: red;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+.logout-btn:hover {
+    text-decoration: underline;
+}
+input {
+    background: white;
+    color: black;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    width: 60%;
+}
+/* ======================================================  */
+
+html {
+    scroll-behavior: smooth;
+}
+.body-index {
+    font-family: 'Roboto', sans-serif;
+    background: #13151a;
+    color: white;
+    overflow-x: hidden;
+}
+.canvas-container-index {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+}
+.header-index {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #101221;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.header-space-index {
+    height: 100px;
+}
+.hero-section-index {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 100px; 
+    padding: 100px 300px; 
+    text-align: left;
+}
+.hero-content-index {
+    max-width: 500px;
+    flex: 1;
+}
+.shield-image-index {
+    width: 500px; 
+    height: auto;
+    flex: 1;
+    margin-left: 100px; 
+}
+.cta-button-index {
+    background-color: #5C59F3;
+    color: white;
+    padding: 14px 32px;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+}
+.free-test-button {
+    width: 100%;
+}
+.cta-button-index {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
+}
+.input-field {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    background: white;
+    color: black;
+    text-align: center;
+}
+.section {
+    padding: 80px 50px;
+    text-align: center;
+}
+.pricing {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+.plan {
+    background: #24273a;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+}
