@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="public/style.css">
+    <link rel="stylesheet" href="style.css">
     <script>
             function checkLogin() {
         const username = localStorage.getItem("username");
@@ -27,11 +28,13 @@
         window.onload = checkLogin;
     </script>    
 </head>
+
 <body class="body-index">
     <div class="canvas-container-index">
         <canvas id="particleCanvas"></canvas>
     </div>
     <header class="header-index">
+        <button class="menu-toggle">&#9776;</button>
         <nav>
             <a href="#home">HOME</a>
             <a href="#pricing">PRICING</a>
@@ -60,7 +63,9 @@
             <input type="email" id="testEmail" class="input-field" placeholder="Email to Test (test@mail.com)" required>
             <button class="cta-button-index free-test-button" onclick="startTest()">Start Your Free Test</button>
         </div>
+        <div class="hero-image-container">
         <img src="images/v1_71.png" alt="Shield Logo" class="shield-image-index">
+        </div>
     </div>
 
     <div id="pricing" class="section">
@@ -214,6 +219,11 @@
             document.getElementById("register-btn").style.display = "inline-block";
             document.getElementById("user-profile").style.display = "none";
         }
+    </script>
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
     </script>
     
 </body>

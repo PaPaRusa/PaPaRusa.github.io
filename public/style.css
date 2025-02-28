@@ -1,3 +1,7 @@
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+}
 .body-account {
     font-family: 'Roboto', sans-serif;
     background: #13151a;
@@ -164,6 +168,7 @@ html {
 .header-space-index {
     height: 100px;
 }
+/* === Default styles (for desktop by default) === */
 .hero-section-index {
     display: flex;
     align-items: center;
@@ -172,16 +177,55 @@ html {
     padding: 100px 300px; 
     text-align: left;
 }
+
 .hero-content-index {
     max-width: 500px;
     flex: 1;
 }
+
 .shield-image-index {
     width: 500px; 
     height: auto;
-    flex: 1;
     margin-left: 100px; 
 }
+
+.input-field {
+    width: 60%; /* Default width for desktop */
+}
+
+
+
+/* === Mobile Styles: Overrides for small screens === */
+@media screen and (max-width: 768px) {
+    .hero-section-index {
+        flex-direction: column;
+        padding: 50px; 
+        gap: 30px;
+        text-align: center;
+    }
+
+    .shield-image-index {
+        width: 80%; /* Adjusted size for mobile */
+        margin-left: 0; /* Centered */
+    }
+
+    .input-field {
+        width: 100%; /* Full width for mobile */
+    }
+
+    
+}
+
+h1 {
+    font-size: 48px;
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 32px; /* Reduce size on mobile */
+    }
+}
+
 .cta-button-index {
     background-color: #5C59F3;
     color: white;
@@ -193,6 +237,7 @@ html {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin-top: 10px;
 }
+
 .free-test-button {
     width: 100%;
 }
@@ -224,4 +269,10 @@ html {
     padding: 20px;
     border-radius: 10px;
     width: 250px;
+}
+@media (min-width: 769px) {
+    .hero-section-index {
+        flex-direction: row; /* Keep desktop layout as row */
+        padding: 100px 300px; /* Restore original padding */
+    }
 }
