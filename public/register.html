@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Forti-Phish</title>
+    <title>Register - Forti-Phish</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link rel="stylesheet" href="main.css"> <!-- Linking external CSS -->
     <style>
@@ -56,7 +56,6 @@
         .footer-right a:hover {
             text-decoration: underline;
         }
-        
         /* Main container */
         .container {
             display: flex;
@@ -116,7 +115,7 @@
             text-align: center;
         }
 
-        /* Right Section (Login Box) */
+        /* Right Section (Register Box) */
         .right-section {
             flex: 1;
             padding: 40px;
@@ -148,8 +147,8 @@
             text-align: center;
         }
 
-        /* Login Button */
-        .login-button {
+        /* Register Button */
+        .register-button {
             width: 80%;
             padding: 12px;
             background-color: #5C59F3;
@@ -161,17 +160,17 @@
             transition: 0.3s;
         }
 
-        .login-button:hover {
+        .register-button:hover {
             background-color: #4a47d1;
         }
 
         /* Register text */
-        .register-text {
+        .login-text {
             margin-top: 10px;
             font-size: 14px;
         }
 
-        .register-text a {
+        .login-text a {
             color: #5C59F3;
             text-decoration: none;
         }
@@ -180,7 +179,7 @@
 <body>
     <div class="container">
         <!-- Back to Home Button -->
-        <a href="index" class="back-home">← Back to Home</a>
+        <a href="index.html" class="back-home">← Back to Home</a>
 
         <!-- Left Section: Logo & Description -->
         <div class="left-section">
@@ -189,58 +188,61 @@
             <p>Empowering businesses to detect, prevent, and educate against phishing attacks.</p>
         </div>
 
-        <!-- Right Section: Login Form -->
+        <!-- Right Section: Register Form -->
         <div class="right-section">
-            <h2>LOG-IN</h2>
-            <input type="email" id="email" placeholder="Email" class="input-field" required>
+            <h2>REGISTER</h2>
             <input type="text" id="username" placeholder="Username" class="input-field" required>
+            <input type="email" id="email" placeholder="Email" class="input-field" required>
             <input type="password" id="password" placeholder="Password" class="input-field" required>
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" class="input-field" required>
             <p id="error-message" class="text-red-500 text-sm"></p>
-            <button onclick="loginUser()" class="login-button">Login</button>
-            <p class="register-text">Don't have an account? <a href="register">Register</a></p>
+            <button onclick="registerUser()" class="register-button">Register</button>
+            <p class="login-text">Already have an account? <a href="login">Login</a></p>
         </div>
     </div>
 
     <script>
-        async function loginUser() {
-            const email = document.getElementById("email").value.trim();
+        async function registerUser() {
             const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value.trim();
+            const confirmPassword = document.getElementById("confirmPassword").value.trim();
             const errorMessage = document.getElementById("error-message");
+
             errorMessage.textContent = "";
             
-            if (!email || !username || !password) {
+            if (!username || !email || !password || !confirmPassword) {
                 errorMessage.textContent = "All fields are required.";
                 return;
             }
             
+            if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+                errorMessage.textContent = "Password must be at least 8 characters long, contain one uppercase letter, and one number.";
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                errorMessage.textContent = "Passwords do not match.";
+                return;
+            }
+            
             try {
-                const response = await fetch("/login", {
+                const response = await fetch("/register", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, username, password })
+                    body: JSON.stringify({ username, email, password })
                 });
                 
                 const data = await response.json();
                 if (response.ok) {
-                    localStorage.setItem("token", data.token);
-                    localStorage.setItem("username", data.username);
-                    window.location.href = "index";
+                    window.location.href = "login.html"; // Redirect to login after successful registration
                 } else {
                     errorMessage.textContent = data.error;
                 }
             } catch (error) {
-                errorMessage.textContent = "Login failed. Please try again.";
+                errorMessage.textContent = "Registration failed. Please try again.";
             }
         }
     </script>
-    <footer class="footer">
-        <div class="footer-left">
-            <img src="images/v1_71.png" alt="Forti-Phish Logo" class="footer-logo">
-            <p>© 2024 Forti-Phish. All Rights Reserved.</p>
-        </div>
-        <div class="footer-right">
-            <a href="terms">Terms of Service</a> | <a href="privacy">Privacy Policy</a>
-        </div>
 </body>
 </html>
