@@ -10,12 +10,12 @@
 <body class="body-account">
     <header class="header-account">
         <nav style="display: flex; align-items: center; gap: 20px;">
-            <a href="index.html#home">
+            <a href="index#home">
                 <img src="images/v1_71.png" alt="Logo" style="height: 40px;">
             </a>
-            <a href="index.html#home">HOME</a>
-            <a href="index.html#pricing">PRICING</a>
-            <a href="index.html#company">COMPANY</a> 
+            <a href="index#home">HOME</a>
+            <a href="index#pricing">PRICING</a>
+            <a href="index#company">COMPANY</a> 
         </nav>
     </header>
     
@@ -67,7 +67,7 @@
             localStorage.removeItem("username");
             localStorage.removeItem("email");
             localStorage.removeItem("token");
-            window.location.href = "index.html";
+            window.location.href = "index";
         }
     </script>
     <footer class="footer">
@@ -76,7 +76,7 @@
             <p>© 2024 Forti-Phish. All Rights Reserved.</p>
         </div>
         <div class="footer-right">
-            <a href="terms.html">Terms of Service</a> | <a href="privacy.html">Privacy Policy</a>
+            <a href="terms">Terms of Service</a> | <a href="privacy">Privacy Policy</a>
         </div>
 </body>
 </html>
