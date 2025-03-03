@@ -16,13 +16,13 @@
         if (username) {
             authButton.textContent = username; 
             authButton.onclick = function () {
-                window.location.href = "account"; // Redirect to Account Settings
+                window.location.href = "account.html"; // Redirect to Account Settings
             };
         }
     }
 
         function handleAuth() {
-            window.location.href = "register";
+            window.location.href = "register.html";
         }
     
         window.onload = checkLogin;
@@ -42,11 +42,11 @@
         </nav>
         <div id="auth-section">
             <!-- Register Button (Shown if user is NOT logged in) -->
-            <a id="register-btn" href="register" style="color: white; text-decoration: none; font-weight: bold; padding: 10px 15px; border: 1px solid white; border-radius: 5px;">Register</a>
+            <a id="register-btn" href="register.html" style="color: white; text-decoration: none; font-weight: bold; padding: 10px 15px; border: 1px solid white; border-radius: 5px;">Register</a>
         
             <!-- User Profile (Shown if user IS logged in) -->
             <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
-                <a href="account">
+                <a href="account.html">
                     <img src="images/avatar.png" alt="User Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
                 </a>
                 <span id="username" style="color: white; font-weight: bold;"></span>
