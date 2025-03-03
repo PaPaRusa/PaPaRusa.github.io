@@ -181,6 +181,7 @@ html {
 .hero-content-index {
     max-width: 500px;
     flex: 1;
+    
 }
 
 .shield-image-index {
@@ -190,23 +191,22 @@ html {
 }
 
 .input-field {
-    width: 60%; /* Default width for desktop */
+    width: 60%; 
 }
 
-
-
-/* === Mobile Styles: Overrides for small screens === */
 @media screen and (max-width: 768px) {
     .hero-section-index {
         flex-direction: column;
         padding: 50px; 
         gap: 30px;
         text-align: center;
+        
     }
 
     .shield-image-index {
-        width: 80%; /* Adjusted size for mobile */
-        margin-left: 0; /* Centered */
+        width: 90%; 
+        margin-left: auto; 
+        margin-right: auto;
     }
 
     .input-field {
