@@ -181,10 +181,11 @@ html {
 .hero-content-index {
     max-width: 500px;
     flex: 1;
-    background: rgba(0, 0, 0, 0.8); /* Black background behind text */
+    background: rgba(19, 21, 26, 0.8); /* Black background behind text */
     padding: 40px;
     border-radius: 15px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s ease-in-out;
 }
 
 .hero-content-index h1 {
@@ -450,8 +451,7 @@ html {
 
 /* Main Company Section */
 .company-section {
-    background: #13151a;
-    opacity: 0.9;
+    background: rgba(19, 21, 26, 0.8);
     padding: 80px;
     border-radius: 15px;
     box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
