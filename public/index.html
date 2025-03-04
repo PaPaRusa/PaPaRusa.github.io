@@ -3,10 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OZRAN</title>
+    <title>Ozran - Phishing Security & Cyber Awareness</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <meta property="og:title" content="Ozran - Phishing Security & Cyber Awareness">
+    <meta property="og:description" content="Protect your business from phishing attacks with Ozran. Identify risks, train employees, and secure your organization with real-world phishing simulations.">
+    <meta property="og:url" content="https://ozran.net">
+    <meta property="og:image" content="https://ozran.net/images/preview.png">
+    <meta name="robots" content="index, follow">
+    
     <script>
             function checkLogin() {
         const username = localStorage.getItem("username");
@@ -27,33 +34,42 @@
         window.onload = checkLogin;
     </script>    
 </head>
-
 <body class="body-index">
-    <div class="canvas-container-index">
-        <canvas id="particleCanvas"></canvas>
-    </div>
-    <header class="header-index">
-        <button class="menu-toggle">&#9776;</button>
-        <nav>
-            <a href="#home">HOME</a>
-            <a href="#pricing">PRICING</a>
-            <a href="#company">COMPANY</a>
-        </nav>
-        <div id="auth-section">
-            <!-- Register Button (Shown if user is NOT logged in) -->
-            <a id="register-btn" href="register.html" style="color: white; text-decoration: none; font-weight: bold; padding: 10px 15px; border: 1px solid white; border-radius: 5px;">Register</a>
-        
-            <!-- User Profile (Shown if user IS logged in) -->
-            <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
-                <a href="account.html">
-                    <img src="images/avatar.png" alt="User Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
-                </a>
-                <span id="username" style="color: white; font-weight: bold;"></span>
-            </div>
+    
+        <div class="canvas-container-index">
+            <canvas id="particleCanvas"></canvas>
         </div>
-            </header>
+        <header class="header-index">          
+            <nav class="desktop-nav">
+                <a href="#home">HOME</a>
+                <a href="#pricing">PRICING</a>
+                <a href="#company">COMPANY</a>
+            </nav>
+            <div id="auth-section">
+                <a id="register-btn" href="register.html" style="color: white; text-decoration: none; font-weight: bold; padding: 10px 15px; border: 1px solid white; border-radius: 5px;">Register</a>
+                <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
+                    <a href="account.html">
+                        <img src="images/avatar.png" alt="User Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
+                    </a>
+                    <span id="username" style="color: white; font-weight: bold;"></span>
+                </div>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+        
+            <!-- Sidebar Navigation (Only for Mobile) -->
+            <div id="sidebar" class="sidebar">
+                <button class="close-btn" onclick="toggleMenu()">✖</button>
+                <nav>
+                    <a href="#home">HOME</a>
+                    <a href="#pricing">PRICING</a>
+                    <a href="#company">COMPANY</a>
+                </nav>
+            </div>
+        </header>
+        
+    </body>
     <div class="header-space-index"></div>
-  
     <div id="home" class="hero-section-index">
         <div class="hero-content-index">
             <h1 style="font-size: 3rem; font-weight: bold; background: linear-gradient(135deg, #e2cfea, #a06cd5, #6247aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Protect Your Business From Cyber Threats</h1>
@@ -80,15 +96,24 @@
                 <h3>Premium</h3>
                 <p>$199/MONTH</p>
                 <p>UP TO 500 TESTS</p>
-                <button class="cta-button-index" onclick="window.location.href='Subscribe.html'">Subscribe</button>
+                <button class="cta-button-index" onclick="window.location.href='subscribe.html'">Subscribe</button>
             </div>
         </div>
     </div>
-
-    <div id="company" class="section">
-        <h2>About Our Company</h2>
-        <p>Forti-Phish is dedicated to enhancing cybersecurity awareness by offering real-time phishing simulations to businesses worldwide.</p>
+    <div class="company-container">
+        <section class="company-section">
+            <div class="company-content">
+                <div class="company-text">
+                    <h2>About Our Company</h2>
+                    <p>We specialize in cybersecurity awareness, helping businesses protect themselves from cyber threats through real-world phishing simulations and security training.</p>
+                </div>
+                <div class="company-image">
+                    <img src="https://via.placeholder.com/600x400" alt="Cybersecurity Protection">
+                </div>
+            </div>
+        </section>
     </div>
+    
     <script>
         async function startTest() {
             const testerEmail = document.getElementById("testerEmail").value.trim();
