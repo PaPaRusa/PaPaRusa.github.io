@@ -126,7 +126,7 @@ app.post("/api/send-test-email", async (req, res) => {
             }
         });
 
-        const trackingUrl = `https://forti-phish.com/api/track-click?email=${encodeURIComponent(testEmail)}`;
+        const trackingUrl = `https://ozran.net/api/track-click?email=${encodeURIComponent(testEmail)}`;
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
