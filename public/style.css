@@ -175,24 +175,50 @@ html {
     align-items: center;
     justify-content: space-between;
     gap: 100px; 
-    padding: 100px 300px; 
+    padding: 100px 250px;
     text-align: left;
 }
-
 .hero-content-index {
     max-width: 500px;
     flex: 1;
-    
+    background: rgba(0, 0, 0, 0.8); /* Black background behind text */
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+.hero-content-index h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #e2cfea, #a06cd5, #6247aa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 15px;
+}
+.hero-content-index p {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    opacity: 0.9;
 }
 
 .shield-image-index {
-    width: 500px; 
+    width: 600px; 
     height: auto;
-    margin-left: 100px; 
+    margin-left: 50px; 
 }
 
 .input-field {
-    width: 60%; 
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    background: white;
+    color: black;
+    text-align: center;
+    font-size: 1rem;
 }
 
 @media screen and (max-width: 768px) {
@@ -226,44 +252,92 @@ html {
     font-weight: bold;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin-top: 10px;
+    display: inline-block;
+    text-align: center;
 }
-
+.cta-button-index:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 14px rgba(92, 89, 243, 0.5);
+}
 .free-test-button {
     width: 100%;
+    max-width: 400px;
 }
 .cta-button-index {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(92, 89, 243, 0.4);
 }
-.input-field {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: none;
-    background: white;
-    color: black;
-    text-align: center;
-}
+
 .section {
-    padding: 80px 50px;
+    padding: 80px 10%;
     text-align: center;
 }
+
+/* Pricing Section */
 .pricing {
     display: flex;
     justify-content: center;
     gap: 20px;
+    flex-wrap: wrap;
 }
+
+/* Pricing Plan */
 .plan {
     background: #24273a;
     padding: 20px;
     border-radius: 10px;
     width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-@media (min-width: 769px) {
+
+/* Hover Effect for Pricing Plans */
+.plan:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+}
+@media screen and (max-width: 1024px) {
     .hero-section-index {
-        flex-direction: row; 
-        padding: 100px 300px; 
+        flex-direction: column;
+        padding: 60px;
+        text-align: center;
+    }
+
+    .hero-content-index {
+        text-align: center;
+    }
+
+    .shield-image-index {
+        width: 80%;
+        margin-left: auto; 
+        margin-right: auto;
+    }
+
+    .input-field {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero-section-index {
+        gap: 30px;
+    }
+
+    .hero-content-index h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content-index p {
+        font-size: 1.1rem;
+    }
+
+    .cta-button-index {
+        width: 100%;
+    }
+
+    .pricing {
+        flex-direction: column;
+        align-items: center;
     }
 }
 
@@ -365,26 +439,85 @@ html {
         display: none; 
     }
 }
+/* General Styling */
 .company-container {
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 50px 20px;
+    max-width: 1300px;
+    margin: 80px auto;
+    padding: 80px 20px;
     text-align: center;
 }
 
-.company-content {
+/* Main Company Section */
+.company-section {
+    background: #13151a;
+    opacity: 0.9;
+    padding: 80px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.3);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 30px;
+    gap: 50px;
+    transition: transform 0.3s ease-in-out;
 }
 
+.company-section:hover {
+    transform: scale(1.02);
+}
+
+/* Company Text Styling */
 .company-text {
     flex: 1;
     text-align: left;
+    color: white;
 }
 
+.company-heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.company-subtext {
+    font-size: 1.3rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.company-list {
+    list-style: none;
+    padding: 0;
+}
+
+.company-list li {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.company-cta {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+.company-cta:hover {
+    background: linear-gradient(45deg, #ff4b2b, #ff416c);
+    transform: translateY(-3px);
+}
+
+/* Company Image */
 .company-image {
     flex: 1;
     display: flex;
@@ -394,18 +527,62 @@ html {
 .company-image img {
     max-width: 100%;
     height: auto;
-    border-radius: 10px;
+    border-radius: 12px;
+    box-shadow: 0px 10px 40px rgba(255, 255, 255, 0.2);
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-    .company-content {
+/* Features Section */
+.features-section {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 80px;
+    text-align: center;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+.feature-item h3 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .company-section {
         flex-direction: column;
         text-align: center;
+        padding: 60px;
     }
 
     .company-text {
         text-align: center;
+    }
+
+    .features-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .features-section {
+        grid-template-columns: repeat(1, 1fr);
     }
 }
 
