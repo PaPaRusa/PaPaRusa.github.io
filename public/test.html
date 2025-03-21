@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ozran Cybersecurity</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      /* Color Palette */
+      --bg-primary: #0e1117;
+      --bg-secondary: #171c26;
+      --bg-tertiary: #1f2531;
+      --accent-primary: #6d5efa;
+      --accent-secondary: #4f8cff;
+      --accent-tertiary: #824efa;
+      --text-primary: #ffffff;
+      --text-secondary: #c4c9d4;
+      --text-tertiary: #8a91a0;
+      --success: #2ecc71;
+      --warning: #f39c12;
+      --danger: #e74c3c;
+      --gradient: linear-gradient(135deg, var(--accent-primary), var(--accent-tertiary));
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      margin-bottom: 1rem;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--accent-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: var(--accent-primary);
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header & Navigation */
+    header {
+      background-color: rgba(14, 17, 23, 0.95);
+      backdrop-filter: blur(10px);
+      position: fixed;
+      width: 100%;
+      z-index: 1000;
+      padding: 1rem 0;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .logo i {
+      margin-right: 0.5rem;
+      color: var(--accent-primary);
+    }
+
+    nav {
+      transition: all 0.3s ease;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+    }
+
+    nav ul li {
+      margin-left: 2rem;
+    }
+
+    nav ul li a {
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      color: var(--text-primary);
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      outline: none;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 4px 15px rgba(109, 94, 250, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(109, 94, 250, 0.4);
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--text-primary);
+      border: 2px solid var(--accent-primary);
+    }
+
+    .btn-secondary:hover {
+      background-color: rgba(109, 94, 250, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .btn-text {
+      background: none;
+      color: var(--accent-primary);
+      padding: 0.5rem 0;
+    }
+
+    .btn-text:hover {
+      color: var(--accent-tertiary);
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 2px solid var(--bg-tertiary);
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: var(--accent-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(109, 94, 250, 0.2);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 8rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 30%, rgba(109, 94, 250, 0.2), transparent 50%);
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 50%;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .hero-image {
+      position: absolute;
+      right: -5%;
+      top: 20%;
+      width: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+      100% { transform: translateY(0px); }
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: 4rem 0;
+      background-color: var(--bg-secondary);
+    }
+
+    .stats-container {
+      display: flex;
+      justify-content: space-between;
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 1.5rem;
+      min-width: 200px;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--accent-primary);
+    }
+
+    .stat-label {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* About Section */
+    .about {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 4px;
+      background: var(--gradient);
+      border-radius: 2px;
+    }
+
+    .about-container {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+    }
+
+    .about-image {
+      flex: 1;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .about-content {
+      flex: 1;
+    }
+
+    .about-content h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-feature {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-feature i {
+      font-size: 1.5rem;
+      color: var(--accent-primary);
+      margin-right: 1rem;
+      margin-top: 0.2rem;
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 0;
+      background-color: var(--bg-secondary);
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background-color: var(--bg-tertiary);
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .feature-icon i {
+      font-size: 1.5rem;
+      color: white;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Pricing Section */
+    .pricing {
+      padding: 5rem 0;
+    }
+
+    .pricing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .pricing-toggle span {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 30px;
+      margin: 0 1rem;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--bg-tertiary);
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 4px;
+      bottom: 4px;
+      background-color: var(--accent-primary);
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(30px);
+    }
+
+    .pricing-cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .pricing-card {
+      flex: 1;
+      min-width: 280px;
+      max-width: 350px;
+      background-color: var(--bg-tertiary);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      margin-bottom: 1rem;
+    }
+
+    .pricing-card.popular {
+      background: linear-gradient(45deg, var(--bg-tertiary), rgba(31, 37, 49, 0.95));
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      border: 2px solid var(--accent-primary);
+      transform: scale(1.05);
+    }
+
+    .pricing-card.popular::before {
+      content: 'Most Popular';
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gradient);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .pricing-card.popular:hover {
+      transform: translateY(-10px) scale(1.05);
+    }
+
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .pricing-amount {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .price {
+      font-size: 3rem;
+      font-weight: 700;
+    }
+
+    .period {
+      font-size: 1rem;
+      color: var(--text-tertiary);
+    }
+
+    .pricing-features {
+      margin-bottom: 2rem;
+    }
+
+    .pricing-feature {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .pricing-feature i {
+      color: var(--success);
+      margin-right: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .pricing-cta {
+      text-align: center;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 5rem 0;
+      background: linear-gradient(to right, var(--accent-primary), var(--accent-tertiary));
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta p {
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-form {
+      display: flex;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .cta-input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      border-radius: 0.5rem 0 0 0.5rem;
+      border: none;
+      font-size: 1rem;
+    }
+
+    .cta-btn {
+      padding: 1rem 2rem;
+      background-color: var(--bg-primary);
+      color: white;
+      border: none;
+      border-radius: 0 0.5rem 0.5rem 0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      background-color: rgba(14, 17, 23, 0.8);
+    }
+
+    /* Footer */
+    footer {
+      background-color: var(--bg-tertiary);
+      padding: 5rem 0 2rem;
+    }
+
+    .footer-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+    }
+
+    .footer-about h3 {
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-about p {
+      margin-bottom: 1.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background-color: var(--bg-secondary);
+      border-radius: 50%;
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background-color: var(--accent-primary);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .footer-links h4 {
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-links ul {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-primary);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 3rem;
+      color: var(--text-tertiary);
+      font-size: 0.9rem;
+    }
+
+    /* Mobile Navigation */
+    .mobile-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-primary);
+      z-index: 1001;
+      display: none;
+      padding: 2rem;
+      overflow-y: auto;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .mobile-nav.active {
+      transform: translateY(0);
+      display: block;
+    }
+
+    .mobile-nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .mobile-nav-close {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+    }
+
+    .mobile-nav-links li {
+      margin-bottom: 1.5rem;
+    }
+
+    .mobile-nav-links a {
+      color: var(--text-primary);
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: block;
+      padding: 0.5rem 0;
+    }
+
+    .mobile-nav-cta {
+      margin-top: 2rem;
+    }
+
+    .mobile-nav-cta .btn {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .container {
+        padding: 0 2rem;
+      }
+      
+      .hero h1 {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .header-container .btn {
+        display: none;
+      }
+      
+      .hero-content {
+        max-width: 100%;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-image {
+        display: none;
+      }
+
+      .hero-cta {
+        justify-content: center;
+      }
+
+      .about-container {
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .about-image {
+        order: -1;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-container {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      nav {
+        display: none;
+      }
+
+      .hero {
+        padding: 7rem 0 3rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .section-title h2 {
+        font-size: 2rem;
+      }
+
+      .stats-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .stat-item {
+        width: 100%;
+        padding: 1rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card {
+        min-width: 100%;
+      }
+
+      .pricing-card.popular {
+        transform: scale(1);
+      }
+
+      .pricing-card.popular:hover {
+        transform: translateY(-10px);
+      }
+
+      .cta-form {
+        flex-direction: column;
+      }
+
+      .cta-input {
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta-btn {
+        border-radius: 0.5rem;
+        width: 100%;
+      }
+
+      .footer-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .container {
+        padding: 0 1rem;
+      }
+      
+      .hero {
+        padding: 6rem 0 3rem;
+      }
+      
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero-cta {
+        flex-direction: column;
+      }
+      
+      .hero-cta .btn {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+      }
+      
+      .section-title h2 {
+        font-size: 1.8rem;
+      }
+      
+      .about-feature {
+        flex-direction: column;
+      }
+      
+      .about-feature i {
+        margin-bottom: 0.5rem;
+      }
+      
+      .pricing-toggle {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .cta h2 {
+        font-size: 1.8rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animated {
+      animation: fadeIn 0.8s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <span>Ozran</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <button class="btn btn-primary">Get Started</button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <span>Ozran</span>
+      </div>
+      <button class="mobile-nav-close" id="mobileNavClose">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <button class="btn btn-primary">Start Free Trial</button>
+      <button class="btn btn-secondary">Book a Demo</button>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content animated">
+        <h1>Strengthen Your Security Posture with AI-Powered Training</h1>
+        <p>Ozran helps businesses identify security weaknesses through advanced phishing simulations and build a security-first culture with comprehensive awareness training.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary">Start Free Trial</button>
+          <button class="btn btn-secondary">Book a Demo</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="images/v1_71.png" alt="Ozran Security Dashboard" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container stats-container">
+      <div class="stat-item animated">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Detection Rate</div>
+      </div>
+      <div class="stat-item animated">
+        <div class="stat-number">5,000+</div>
+        <div class="stat-label">Protected Companies</div>
+      </div>
+      <div class="stat-item animated">
+        <div class="stat-number">82%</div>
+        <div class="stat-label">Reduced Vulnerability</div>
+      </div>
+      <div class="stat-item animated">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Security Monitoring</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>About Ozran</h2>
+      </div>
+      <div class="about-container">
+        <div class="about-image animated">
+          <img src="/api/placeholder/500/400" alt="Ozran Platform" />
+        </div>
+        <div class="about-content animated">
+          <h3>Cybersecurity Evolved</h3>
+          <p>Ozran was founded with a simple mission: make enterprise-grade security training accessible to businesses of all sizes. Our platform combines advanced AI simulation technology with human-centered education to create a comprehensive security solution.</p>
+          
+          <div class="about-feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Industry Leading Protection</h4>
+              <p>Our sophisticated phishing simulation engine tests your organization's resilience against the latest threats.</p>
+            </div>
+          </div>
+          
+          <div class="about-feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Adaptive Learning</h4>
+              <p>Personalized training paths that adapt to each employee's security awareness level and role.</p>
+            </div>
+          </div>
+          
+          <div class="about-feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Comprehensive Analytics</h4>
+              <p>Detailed reporting and insights to track your organization's security posture over time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Core Features</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-fish"></i>
+          </div>
+          <h3>Advanced Phishing Simulations</h3>
+          <p>Create sophisticated, targeted phishing campaigns that mimic real-world threats to test your employees' vigilance.</p>
+        </div>
+        
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Comprehensive Training</h3>
+          <p>Interactive courses and micro-learning modules designed to build security awareness in an engaging way.</p>
+        </div>
+        
+        <div class="feature-card animated">
+            <div class="feature-icon">
+              <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h3>AI-Powered Insights</h3>
+            <p>Identify high-risk departments and individuals to focus your security training efforts where they're needed most.</p>
+        </div>
+
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Risk Analytics</h3>
+          <p>Identify high-risk departments and individuals to focus your security training efforts where they're needed most.</p>
+        </div>
+        
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>AI-Powered Insights</h3>
+          <p>Our machine learning algorithms analyze employee behavior to predict vulnerabilities before they become problems.</p>
+        </div>
+        <div class="feature-card animated">
+        <div class="feature-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3>Zero Trust Policies</h3>
+          <p>Implement zero-trust access controls and ensure your employees follow security best practices at every layer.</p>
+        </div>
+            </div>
+
+ 
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="section-title">
+        <h2>Pricing Plans</h2>
+      </div>
+
+      <div class="pricing-cards">
+        <div class="pricing-card animated">
+          <h3>Starter</h3>
+          <div class="pricing-amount">
+            <span class="price">$49</span>
+            <span class="period">/mo</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature"><i class="fas fa-check"></i> Up to 50 users</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Basic simulations</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Basic analytics</div>
+          </div>
+          <div class="pricing-cta">
+            <button class="btn btn-primary">Choose Plan</button>
+          </div>
+        </div>
+
+        <div class="pricing-card popular animated">
+          <h3>Professional</h3>
+          <div class="pricing-amount">
+            <span class="price">$99</span>
+            <span class="period">/mo</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature"><i class="fas fa-check"></i> Up to 200 users</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> AI-powered simulations</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Advanced analytics & reporting</div>
+          </div>
+          <div class="pricing-cta">
+            <button class="btn btn-primary">Choose Plan</button>
+          </div>
+        </div>
+
+        <div class="pricing-card animated">
+          <h3>Enterprise</h3>
+          <div class="pricing-amount">
+            <span class="price">Custom</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature"><i class="fas fa-check"></i> Unlimited users</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Custom integrations</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Dedicated account manager</div>
+          </div>
+          <div class="pricing-cta">
+            <button class="btn btn-primary">Contact Sales</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Ready to Secure Your Business?</h2>
+      <p>Get started with Ozran today and elevate your organization’s cybersecurity awareness to the next level.</p>
+      <form class="cta-form">
+        <input type="email" class="cta-input" placeholder="Enter your email" required>
+        <button type="submit" class="cta-btn">Get Started</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-about">
+        <h3>Ozran</h3>
+        <p>Ozran is a cybersecurity awareness platform offering phishing simulations, adaptive training, and AI-powered insights to secure your workforce.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#about">About Us</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Security Tips</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security Compliance</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 Ozran. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+    });
+
+    mobileNavClose.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
