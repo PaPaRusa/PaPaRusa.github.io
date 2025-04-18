@@ -1,248 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <link rel="stylesheet" href="main.css"> <!-- Linking external CSS -->
-    <style>
-        /* Center everything */
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: #1B1E2E;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #101221;
-            color: white;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            height: 30px;
-        }
-
-        .footer-left {
-            display: flex;
-            align-items: center;
-        }
-
-        .footer-logo {
-            height: 30px;
-            margin-right: 10px;
-        }
-
-        .footer-right {
-            font-size: 14px;
-        }
-
-        .footer-right a {
-            color: white;
-            text-decoration: none;
-            margin-left: 10px;
-        }
-
-        .footer-right a:hover {
-            text-decoration: underline;
-        }
-        /* Main container */
-        .container {
-            display: flex;
-            width: 1200px;
-            height: 600px;
-            background: #1A1C2C;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        /* Back to Home Button */
-        .back-home {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #5C59F3;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 14px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-
-        .back-home:hover {
-            background: #4a47d1;
-        }
-
-        /* Left Section (Text & Logo) */
-        .left-section {
-            flex: 1;
-            padding: 50px;
-            background: #161827;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .left-section img {
-            width: 300px;
-            margin-bottom: 20px;
-        }
-
-        .left-section h1 {
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .left-section p {
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        /* Right Section (Register Box) */
-        .right-section {
-            flex: 1;
-            padding: 40px;
-            background: #222437;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .right-section h2 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, white, #a06cd5, #7d5ba6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Input fields */
-        .input-field {
-            width: 80%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            border: none;
-            background: white;
-            color: black;
-            text-align: center;
-        }
-
-        /* Register Button */
-        .register-button {
-            width: 80%;
-            padding: 12px;
-            background-color: #5C59F3;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .register-button:hover {
-            background-color: #4a47d1;
-        }
-
-        /* Register text */
-        .login-text {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .login-text a {
-            color: #5C59F3;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Ozran</title>
+  <link rel="stylesheet" href="style1.css" />
 </head>
-<body>
-    <div class="container">
-        <!-- Back to Home Button -->
-        <a href="index.html" class="back-home">← Back to Home</a>
-
-        <!-- Left Section: Logo & Description -->
-        <div class="left-section">
-            <img src="images/v1_71.png" alt="Forti-Phish Logo">
-            <h1>Phishing Protection-as-a-Service</h1>
-            <p>Empowering businesses to detect, prevent, and educate against phishing attacks.</p>
-        </div>
-
-        <!-- Right Section: Register Form -->
-        <div class="right-section">
-            <h2>REGISTER</h2>
-            <input type="text" id="username" placeholder="Username" class="input-field" required>
-            <input type="email" id="email" placeholder="Email" class="input-field" required>
-            <input type="password" id="password" placeholder="Password" class="input-field" required>
-            <input type="password" id="confirmPassword" placeholder="Confirm Password" class="input-field" required>
-            <p id="error-message" class="text-red-500 text-sm"></p>
-            <button onclick="registerUser()" class="register-button">Register</button>
-            <p class="login-text">Already have an account? <a href="login.html">Login</a></p>
-        </div>
-    </div>
-
-    <script>
-        async function registerUser() {
-            const username = document.getElementById("username").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const confirmPassword = document.getElementById("confirmPassword").value.trim();
-            const errorMessage = document.getElementById("error-message");
-
-            errorMessage.textContent = "";
-            
-            if (!username || !email || !password || !confirmPassword) {
-                errorMessage.textContent = "All fields are required.";
-                return;
-            }
-            
-            if (password.length < 8 || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
-                errorMessage.textContent = "Password must be at least 8 characters long, contain one uppercase letter, and one number.";
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                errorMessage.textContent = "Passwords do not match.";
-                return;
-            }
-            
-            try {
-                const response = await fetch("/register", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ username, email, password })
-                });
-                
-                const data = await response.json();
-                if (response.ok) {
-                    window.location.href = "login.html"; // Redirect to login after successful registration
-                } else {
-                    errorMessage.textContent = data.error;
-                }
-            } catch (error) {
-                errorMessage.textContent = "Registration failed. Please try again.";
-            }
-        }
-    </script>
+<body class="dark-theme">
+    <p class="form-extra"><a href="index.html" class="btn btn-secondary small">← Back to Home</a></p>
+    <div class="register-wrapper">
+        <h2>Create an Account</h2>
+        <form id="register-form" class="form-box">
+            <label for="username">Username</label>
+            <input type="text" id="username" class="form-control" placeholder="Your name" required />
+        
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" class="form-control" required />
+      
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" class="form-control" required />
+      
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" id="confirm-password" name="confirm-password" class="form-control" required />
+      
+          <button type="submit" class="btn btn-accent">Register</button>
+          <p class="form-extra">Already have an account? <a href="login.html">Login here</a></p>
+        </form>
+      </div>
+      
+  <script>
+    const regForm = document.getElementById('register-form');
+  
+    regForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+  
+      const username = document.getElementById("username").value.trim();
+      const email = regForm.email.value.trim();
+      const password = regForm.password.value.trim();
+      const confirm = regForm['confirm-password'].value.trim();
+  
+      if (password !== confirm) {
+        alert('Passwords do not match.');
+        return;
+      }
+  
+      if (username && email && password && confirm) {
+        localStorage.setItem('username', username); // ✅ Store username
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userLoggedIn', 'true');
+        localStorage.setItem('token', 'dev-token'); // Optional dev token
+        window.location.href = 'dashboard.html';
+      } else {
+        alert('Please fill out all fields.');
+      }
+    });
+  </script>
+  
 </body>
 </html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Billing - Ozran</title>
+  <link rel="stylesheet" href="style1.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body class="dark-theme">
+    <p class="form-extra"><a href="index.html" class="btn btn-secondary small">← Back to Home</a></p>
+  <div class="billing-wrapper">
+    <h2>Subscribe to <span id="selected-plan">Your Plan</span></h2>
+
+    <!-- Plan Selection Buttons -->
+    <div class="plan-options">
+      <button onclick="setPlan('Starter')">Starter</button>
+      <button onclick="setPlan('Professional')">Professional</button>
+      <button onclick="setPlan('Enterprise')">Enterprise</button>
+    </div>
+
+    <!-- Plan Feature Preview -->
+    <div class="plan-preview" id="plan-preview"></div>
+
+    <!-- Billing Form -->
+    <form id="billing-form">
+      <div>
+        <label for="full-name">Full Name</label>
+        <input type="text" id="full-name" placeholder="John Doe" required />
+      </div>
+
+      <div>
+        <label for="email">Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" required />
+      </div>
+
+      <div>
+        <label for="card-element">Credit Card</label>
+        <div id="card-element" class="form-control">
+          <em style="color: var(--text-tertiary); font-size: 0.95rem;">Card input here (Stripe placeholder)</em>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Subscribe</button>
+      <p id="confirmation-message" style="margin-top: 1rem; color: var(--success);"></p>
+    </form>
+
+    <!-- Billing History -->
+    <div class="billing-history">
+      <h3>Billing History</h3>
+      <ul>
+        <li>
+          <strong>April 2025</strong><br>
+          Plan: Professional - $99/mo<br>
+          Status: <span style="color: var(--success);">Paid</span>
+        </li>
+        <li>
+          <strong>March 2025</strong><br>
+          Plan: Starter - $49/mo<br>
+          Status: <span style="color: var(--success);">Paid</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const plans = {
+      Starter: {
+        price: "$49/mo",
+        features: [
+          "Up to 50 users",
+          "Basic simulations",
+          "Basic analytics"
+        ]
+      },
+      Professional: {
+        price: "$99/mo",
+        features: [
+          "Up to 200 users",
+          "AI-powered simulations",
+          "Advanced analytics & reporting"
+        ]
+      },
+      Enterprise: {
+        price: "Custom",
+        features: [
+          "Unlimited users",
+          "Custom integrations",
+          "Dedicated account manager"
+        ]
+      }
+    };
+
+    let selectedPlan = "Starter";
+
+    function setPlan(plan) {
+      selectedPlan = plan;
+      document.getElementById("selected-plan").textContent = plan;
+      const selected = plans[plan];
+      const preview = document.getElementById("plan-preview");
+
+      preview.innerHTML = `
+        <div class="pricing-card expanded animated">
+          <h3>${plan}</h3>
+          <div class="pricing-amount"><span class="price">${selected.price}</span></div>
+          <div class="pricing-features">
+            ${selected.features.map(f => `<div class="pricing-feature"><i class="fas fa-check"></i> ${f}</div>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    // Read plan from URL or default to Starter
+    const params = new URLSearchParams(window.location.search);
+    setPlan(params.get("plan") || "Starter");
+
+    // Handle form submission
+    document.getElementById("billing-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("confirmation-message").textContent =
+        `✅ Subscription to ${selectedPlan} Plan was successful!`;
+    });
+  </script>
+</body>
+</html>

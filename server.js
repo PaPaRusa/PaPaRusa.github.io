@@ -205,3 +205,19 @@ app.get("*", (req, res) => {
 // ✅ Start Server
 const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+app.post('/api/send-test-email', (req, res) => {
+    const { to, location } = req.body;
+    
+    // Just log it for now
+    console.log(`Sending phishing test to ${to}`);
+    console.log(`Location:`, location);
+  
+    // You can also save this to a DB or file if needed
+  
+    // Your existing email logic...
+    // transporter.sendMail({...})
+  
+    res.status(200).json({ message: 'Email sent!' });
+  });
+  

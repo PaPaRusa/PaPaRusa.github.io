@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel - Ozran</title>
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark-theme">
+  <div class="admin-wrapper">
+    <h2>Admin Control Panel</h2>
+
+    <!-- Insights -->
+    <div class="admin-section">
+      <h3>System Insights</h3>
+      <div class="admin-insight">
+        <div class="insight-card">
+          <h4>Total Users</h4>
+          <div class="value" id="total-users">--</div>
+        </div>
+        <div class="insight-card">
+          <h4>Active Subscriptions</h4>
+          <div class="value" id="active-subscriptions">--</div>
+        </div>
+        <div class="insight-card">
+          <h4>Monthly Revenue</h4>
+          <div class="value" id="monthly-revenue">--</div>
+        </div>
+      </div>
+      <canvas id="userChart" width="600" height="200" style="margin-top:2rem;"></canvas>
+    </div>
+    <div class="admin-section">
+        <h3>Dynamic Risk Scores</h3>
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Risk Level</th>
+              <th>Score (%)</th>
+            </tr>
+          </thead>
+          <tbody id="risk-table"></tbody>
+        </table>
+      </div>
+      
+
+    <!-- Manage Users -->
+    <div class="admin-section">
+      <h3>Manage Users</h3>
+      <div class="admin-controls" style="margin-bottom: 1rem;">
+        <input type="text" id="user-search" class="form-control" placeholder="Search users..." style="max-width: 300px;">
+      </div>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="user-list"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <h3>Edit User</h3>
+      <label>Name:</label>
+      <input type="text" id="edit-name" class="form-control" />
+      <label>Email:</label>
+      <input type="email" id="edit-email" class="form-control" />
+      <label>Plan:</label>
+      <select id="edit-plan" class="form-control">
+        <option value="Starter">Starter</option>
+        <option value="Professional">Professional</option>
+        <option value="Enterprise">Enterprise</option>
+      </select>
+      <label>Status:</label>
+      <select id="edit-status" class="form-control">
+        <option value="true">Active</option>
+        <option value="false">Inactive</option>
+      </select>
+      <div style="margin-top: 1rem;">
+        <button class="btn btn-primary" onclick="saveEditUser()">Save</button>
+        <button class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Behavior Log Viewer -->
+  <div class="admin-section">
+    <h3>Phishing Behavior Logs</h3>
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Clicked</th>
+          <th>Timestamp</th>
+          <th>IP</th>
+          <th>Browser</th>
+        </tr>
+      </thead>
+      <tbody id="behavior-log"></tbody>
+    </table>
+  </div>
+
+  <script>
+    let users = [
+      { name: "Alice", email: "alice@example.com", plan: "Starter", active: true },
+      { name: "Bob", email: "bob@example.com", plan: "Professional", active: false },
+      { name: "Carol", email: "carol@example.com", plan: "Enterprise", active: true }
+    ];
+    let editIndex = null;
+
+    const behaviorData = [
+      { email: "alice@example.com", clicked: true, timestamp: "2025-04-14T13:00Z", ip: "192.168.0.5", browser: "Chrome" },
+      { email: "bob@example.com", clicked: false, timestamp: "2025-04-14T14:12Z", ip: "192.168.0.12", browser: "Safari" }
+    ];
+
+    function calculateRiskScores() {
+  const userScores = {};
+
+  behaviorData.forEach(log => {
+    const { email, clicked } = log;
+    if (!userScores[email]) {
+      userScores[email] = { total: 0, clicked: 0 };
+    }
+    userScores[email].total += 1;
+    if (clicked) userScores[email].clicked += 1;
+  });
+
+  const riskList = Object.keys(userScores).map(email => {
+    const { total, clicked } = userScores[email];
+    const ratio = clicked / total;
+    let level = "Low";
+    if (ratio > 0.6) level = "High";
+    else if (ratio > 0.3) level = "Medium";
+    return { email, score: Math.round(ratio * 100), level };
+  });
+
+  return riskList;
+}
+function renderRiskScores() {
+  const scores = calculateRiskScores();
+  const tbody = document.getElementById("risk-table");
+  tbody.innerHTML = scores.map(risk => `
+    <tr>
+      <td>${risk.email}</td>
+      <td style="color:${risk.level === 'High' ? 'red' : risk.level === 'Medium' ? 'orange' : 'limegreen'}">${risk.level}</td>
+      <td>${risk.score}%</td>
+    </tr>
+  `).join("");
+}
+
+
+    document.getElementById("user-search")?.addEventListener("input", () => renderUsers(userSearch.value));
+
+    function renderUsers(query = "") {
+      const tbody = document.getElementById("user-list");
+      const filtered = users.filter(u => u.name.toLowerCase().includes(query.toLowerCase()) || u.email.toLowerCase().includes(query.toLowerCase()));
+      tbody.innerHTML = filtered.map((u, i) => `
+        <tr>
+          <td>${u.name}</td>
+          <td>${u.email}</td>
+          <td>${u.plan}</td>
+          <td>${u.active ? '<span style="color:limegreen">Active</span>' : '<span style="color:orange">Inactive</span>'}</td>
+          <td>
+            <div class="admin-controls">
+              <button class="btn btn-edit" onclick="editUser(${i})">Edit</button>
+              <button class="btn btn-danger" onclick="deleteUser(${i})">Delete</button>
+            </div>
+          </td>
+        </tr>
+      `).join("");
+    }
+
+    function renderLogs() {
+      const tbody = document.getElementById("behavior-log");
+      tbody.innerHTML = behaviorData.map(log => `
+        <tr>
+          <td>${log.email}</td>
+          <td>${log.clicked ? '✅' : '❌'}</td>
+          <td>${log.timestamp}</td>
+          <td>${log.ip}</td>
+          <td>${log.browser}</td>
+        </tr>
+      `).join("");
+    }
+
+    function editUser(index) {
+      editIndex = index;
+      const user = users[index];
+      document.getElementById("edit-name").value = user.name;
+      document.getElementById("edit-email").value = user.email;
+      document.getElementById("edit-plan").value = user.plan;
+      document.getElementById("edit-status").value = user.active;
+      document.getElementById("edit-modal").style.display = "flex";
+    }
+
+    function saveEditUser() {
+      const updated = {
+        name: document.getElementById("edit-name").value,
+        email: document.getElementById("edit-email").value,
+        plan: document.getElementById("edit-plan").value,
+        active: document.getElementById("edit-status").value === "true"
+      };
+      users[editIndex] = updated;
+      closeEditModal();
+      renderUsers();
+      loadInsights();
+      renderChart();
+    }
+
+    function closeEditModal() {
+      document.getElementById("edit-modal").style.display = "none";
+    }
+
+    function deleteUser(index) {
+      if (confirm("Are you sure you want to delete this user?")) {
+        users.splice(index, 1);
+        renderUsers();
+        loadInsights();
+        renderChart();
+      }
+    }
+
+    function loadInsights() {
+      document.getElementById("total-users").textContent = users.length;
+      document.getElementById("active-subscriptions").textContent = users.filter(u => u.active).length;
+      document.getElementById("monthly-revenue").textContent = `$${users.filter(u => u.active).reduce((sum, u) => sum + (u.plan === 'Starter' ? 49 : u.plan === 'Professional' ? 99 : 149), 0)}`;
+    }
+
+    function renderChart() {
+      const ctx = document.getElementById('userChart').getContext('2d');
+      const count = users.reduce((acc, u) => {
+        acc[u.plan] = (acc[u.plan] || 0) + 1;
+        return acc;
+      }, {});
+
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(count),
+          datasets: [{
+            label: 'Users by Plan',
+            data: Object.values(count),
+            backgroundColor: ['#6d5efa', '#4f8cff', '#824efa']
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, ticks: { stepSize: 1 } }
+          }
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderUsers();
+      renderLogs();
+      loadInsights();
+      renderChart();
+      renderRiskScores();
+    });
+  </script>
+</body>
+</html>

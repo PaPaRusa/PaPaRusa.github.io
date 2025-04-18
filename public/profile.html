@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile Settings - Ozran</title>
+  <link rel="stylesheet" href="style1.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="dark-theme">
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <h2>Ozran</h2>
+      <ul>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li><a href="profile.html">Profile Settings</a></li>
+        <li><a href="index.html" onclick="logout()">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-section">
+      <section class="profile-wrapper">
+        <h2>Profile Settings</h2>
+
+        <button class="quick-link-btn" onclick="toggleSection('notifications-section')">
+          Notifications <i class="fas fa-chevron-right quick-link-icon"></i>
+        </button>
+        <div id="notifications-section" class="form-section" style="display: none;">
+          <form class="form-box" id="notification-form">
+            <label>
+              <input type="checkbox" id="notifications" /> Enable Email Notifications
+            </label>
+          </form>
+        </div>
+
+        <button class="quick-link-btn" onclick="toggleSection('password-section')">
+          Change Password <i class="fas fa-chevron-right quick-link-icon"></i>
+        </button>
+        <div id="password-section" class="form-section" style="display: none;">
+          <form class="form-box" id="password-form">
+            <label for="current-password">Current Password</label>
+            <input type="password" id="current-password" placeholder="Enter current password" />
+
+            <label for="new-password">New Password</label>
+            <input type="password" id="new-password" placeholder="Enter new password" />
+
+            <button type="submit" class="btn btn-accent small">Change Password</button>
+          </form>
+        </div>
+
+        <button class="quick-link-btn" onclick="toggleSection('phone-section')">
+          Add Phone Number <i class="fas fa-chevron-right quick-link-icon"></i>
+        </button>
+        <div id="phone-section" class="form-section" style="display: none;">
+          <form class="form-box" id="phone-form">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="e.g. +1 555 123 4567" />
+            <button type="submit" class="btn btn-accent small">Update Phone</button>
+          </form>
+        </div>
+
+        <button class="quick-link-btn" onclick="toggleSection('billing-section')">
+          Update Billing Address <i class="fas fa-chevron-right quick-link-icon"></i>
+        </button>
+        <div id="billing-section" class="form-section" style="display: none;">
+          <form class="form-box" id="billing-form">
+            <label for="billing-address">Billing Address</label>
+            <input type="text" id="billing-address" placeholder="123 Main St, City, ZIP" />
+            <button type="submit" class="btn btn-accent small">Save Address</button>
+          </form>
+        </div>
+
+        <button class="quick-link-btn" onclick="toggleSection('payment-section')">
+          Change Payment Method <i class="fas fa-chevron-right quick-link-icon"></i>
+        </button>
+        <div id="payment-section" class="form-section" style="display: none;">
+          <form class="form-box" id="payment-form">
+            <label for="payment-method">Payment Method</label>
+            <select id="payment-method">
+              <option value="credit">Credit Card</option>
+              <option value="paypal">PayPal</option>
+              <option value="crypto">Crypto</option>
+            </select>
+            <button type="submit" class="btn btn-accent small">Update Payment</button>
+          </form>
+        </div>
+
+        <p id="profile-msg" style="margin-top: 1rem; color: var(--success);"></p>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function logout() {
+      localStorage.removeItem("userLoggedIn");
+    }
+
+    document.querySelectorAll("form").forEach(form => {
+      form.addEventListener("submit", function(e) {
+        e.preventDefault();
+        document.getElementById("profile-msg").textContent = "✅ Settings saved successfully.";
+        setTimeout(() => document.getElementById("profile-msg").textContent = "", 3000);
+      });
+    });
+
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
+</body>
+</html>

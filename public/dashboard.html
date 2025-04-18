@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Ozran</title>
+  <link rel="stylesheet" href="style1.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+<body class="dark-theme">
+  <script>
+    localStorage.setItem("userLoggedIn", "true");
+    localStorage.setItem("token", "dev-token");
+
+    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+    const token = localStorage.getItem("token");
+
+    if (!isLoggedIn || !token) {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <a href="index.html"><img src="images/v1_71.png" alt="Ozran Logo" style="width: 150px;" /></a>
+      <ul>
+        <li><a href="#" onclick="showSection('phishing')">Run Phishing Test</a></li>
+        <li><a href="#" onclick="showSection('stats')">Team Stats</a></li>
+        <li><a href="#" onclick="showSection('training')">Training Progress</a></li>
+        <li><a href="#" onclick="showSection('results')">Test Results</a></li>
+        <li><a href="profile.html">Profile Settings</a></li>
+        <li><a href="index.html" onclick="logout()">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-section">
+      <section id="phishing" class="dashboard-panel active">
+        <h2>Run Phishing Test</h2>
+        <div class="add-employee-wrapper">
+          <form id="add-employee-form" class="add-row-form">
+            <div>
+              <label for="employee-email">Employee Email</label>
+              <input type="email" id="employee-email" placeholder="employee@example.com" required />
+            </div>
+            <div>
+              <label for="employee-group">Group</label>
+              <select id="employee-group">
+                <option value="General">General</option>
+                <option value="HR">HR</option>
+                <option value="Managers">Managers</option>
+              </select>
+            </div>  
+            <div>
+              <button type="submit" class="btn btn-accent small">Add</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="employee-controls">
+          <input type="text" id="search-filter" placeholder="Search by email or group" class="form-control" style="max-width:250px;">
+          <select id="group-filter" class="form-control" style="max-width:150px;">
+            <option value="All">All Groups</option>
+            <option value="HR">HR</option>
+            <option value="Managers">Managers</option>
+            <option value="General">General</option>
+          </select>
+          <button onclick="selectAllEmployees()" class="btn btn-secondary small">Select All</button>
+        </div>
+
+        <ul id="employee-table" class="employee-table"></ul>
+        <button onclick="sendPhishingTest()" class="btn btn-accent small" style="margin-top: 1rem;">Send Test</button>
+        <p id="test-result" style="margin-top: 1rem;"></p>
+      </section>
+
+      <section id="stats" class="dashboard-panel">
+        <h2>Team Stats</h2>
+        <p>Coming soon...</p>
+      </section>
+
+      <section id="training" class="dashboard-panel">
+        <h2>Training Progress</h2>
+        <p>Coming soon...</p>
+      </section>
+
+      <section id="results" class="dashboard-panel">
+        <h2>Phishing Test Results</h2>
+        <div class="employee-controls">
+          <input type="text" id="search-results" placeholder="Search by email..." class="form-control" style="max-width:250px;">
+        </div>
+        <div style="margin-top: 1rem;">
+          <button onclick="downloadCSV()" class="btn btn-secondary small">Export Results to CSV</button>
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Date</th>
+              <th>IP</th>
+              <th>City</th>
+              <th>Country</th>
+              <th>ISP</th>
+              <th>Timezone</th>
+              <th>Browser</th>
+            </tr>
+          </thead>
+          <tbody id="results-body"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const phishingResults = [
+      {
+        email: "alice@company.com",
+        status: "fail",
+        date: "Apr 22, 2025",
+        ip: "192.168.1.45",
+        city: "San Jose",
+        country: "USA",
+        isp: "Comcast",
+        timezone: "America/Los_Angeles",
+        browser: "Chrome (Win)"
+      },
+      {
+        email: "bob@company.com",
+        status: "pass",
+        date: "Apr 22, 2025",
+        ip: "10.0.0.22",
+        city: "Tel Aviv",
+        country: "Israel",
+        isp: "Bezeq",
+        timezone: "Asia/Jerusalem",
+        browser: "Safari (iOS)"
+      },
+      {
+        email: "carol@company.com",
+        status: "fail",
+        date: "Apr 22, 2025",
+        ip: "172.16.3.9",
+        city: "New York",
+        country: "USA",
+        isp: "Verizon",
+        timezone: "America/New_York",
+        browser: "Firefox (Mac)"
+      }
+    ];
+
+    function renderResults(filter = "") {
+      const tbody = document.getElementById("results-body");
+      tbody.innerHTML = phishingResults
+        .filter(res => res.email.toLowerCase().includes(filter.toLowerCase()))
+        .map(res => `
+          <tr>
+            <td>${res.email}</td>
+            <td style="color: ${res.status === 'fail' ? 'red' : 'limegreen'}">
+              ${res.status === 'fail' ? '❌ Clicked' : '✅ Safe'}
+            </td>
+            <td>${res.date}</td>
+            <td>${res.ip}</td>
+            <td>${res.city}</td>
+            <td>${res.country}</td>
+            <td>${res.isp}</td>
+            <td>${res.timezone}</td>
+            <td>${res.browser}</td>
+          </tr>
+        `).join("");
+    }
+
+    function showSection(id) {
+      document.querySelectorAll(".dashboard-panel").forEach(p => p.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+      if (id === "results") renderResults();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("add-employee-form")?.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const email = document.getElementById("employee-email").value.trim();
+        const group = document.getElementById("employee-group").value;
+        if (email) {
+          const list = document.getElementById("employee-table");
+          const li = document.createElement("li");
+          li.innerHTML = `<label><input type="checkbox" data-email="${email}" /> ${email} (${group})</label>`;
+          list.appendChild(li);
+          document.getElementById("employee-email").value = "";
+        }
+      });
+
+      document.getElementById("search-results")?.addEventListener("input", e => {
+        renderResults(e.target.value);
+      });
+    });
+  </script>
+</body>
+</html>

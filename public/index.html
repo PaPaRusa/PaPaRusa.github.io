@@ -1,308 +1,395 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ozran - Phishing Security & Cyber Awareness</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-
-    <meta property="og:title" content="Ozran - Phishing Security & Cyber Awareness">
-    <meta property="og:description" content="Protect your business from phishing attacks with Ozran. Identify risks, train employees, and secure your organization with real-world phishing simulations.">
-    <meta property="og:url" content="https://ozran.net">
-    <meta property="og:image" content="https://ozran.net/images/v1_71">
-    <meta name="robots" content="index, follow">
-
-    <script>
-            function checkLogin() {
-        const username = localStorage.getItem("username");
-        const authButton = document.getElementById("auth-button");
-
-        if (username) {
-            authButton.textContent = username; 
-            authButton.onclick = function () {
-                window.location.href = "account.html"; // Redirect to Account Settings
-            };
-        }
-    }
-
-        function handleAuth() {
-            window.location.href = "register.html";
-        }
-    
-        window.onload = checkLogin;
-    </script>    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ozran Cybersecurity</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="test.css" />
 </head>
-<body class="body-index">
-    
-        <div class="canvas-container-index">
-            <canvas id="particleCanvas"></canvas>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container header-container">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <span>Ozran</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="auth-dropdown">
+        <button id="auth-btn" class="btn btn-primary">Loading...</button>
+        <div id="auth-menu" class="auth-menu hidden">
+          <div class="auth-info">
+            <strong id="auth-username">👤 Username</strong><br>
+            <small id="auth-plan">Plan: Starter</small>
+          </div>
+          <hr>
+          <a href="dashboard.html">Dashboard</a>
+          <a href="billing.html">Billing</a>
+          <a href="#" onclick="logout()">Logout</a>
         </div>
-        <header class="header-index">          
-            <nav class="desktop-nav">
-                <a href="#home">HOME</a>
-                <a href="#pricing">PRICING</a>
-                <a href="#company">COMPANY</a>
-            </nav>
-            <div id="auth-section">
-                <a id="register-btn" href="register.html" style="color: white; text-decoration: none; font-weight: bold; padding: 10px 15px; border: 1px solid white; border-radius: 5px;">Register</a>
-                <div id="user-profile" style="display: none; align-items: center; gap: 10px;">
-                    <a href="account.html">
-                        <img src="images/avatar.png" alt="User Avatar" style="width: 40px; height: 40px; border-radius: 50%;">
-                    </a>
-                    <span id="username" style="color: white; font-weight: bold;"></span>
-                </div>
+      </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav" id="mobileNav">
+    <div class="mobile-nav-header">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <span>Ozran</span>
+      </div>
+      <button class="mobile-nav-close" id="mobileNavClose">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="mobile-nav-cta">
+      <button class="btn btn-primary" onclick="handleStartTrial()">Start Free Trial</button>
+      <button class="btn btn-secondary" onclick="handleBookDemo()">Book a Demo</button>
+    </div> 
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content animated">
+        <h1>Strengthen Your Security Posture with AI-Powered Training</h1>
+        <p>Ozran helps businesses identify security weaknesses through advanced phishing simulations and build a security-first culture with comprehensive awareness training.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" onclick="handleStartTrial()">Start Free Trial</button>
+          <button class="btn btn-secondary" onclick="handleBookDemo()">Book a Demo</button>
+        </div>        
+      </div>
+      <div class="hero-image">
+        <img src="images/v1_71.png" alt="Ozran Security Dashboard" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="stats">
+    <div class="container stats-container">
+      <div class="stat-item animated">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">Detection Rate</div>
+      </div>
+      <div class="stat-item animated">
+        <div class="stat-number">5,000+</div>
+        <div class="stat-label">Protected Companies</div>
+      </div>
+      <div class="stat-item animated">
+        <div class="stat-number">82%</div>
+        <div class="stat-label">Reduced Vulnerability</div>
+      </div>
+      <div class="stat-item animated">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">Security Monitoring</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>About Ozran</h2>
+      </div>
+      <div class="about-container">
+        <div class="about-image animated">
+          <img src="/api/placeholder/500/400" alt="Ozran Platform" />
+        </div>
+        <div class="about-content animated">
+          <h3>Cybersecurity Evolved</h3>
+          <p>Ozran was founded with a simple mission: make enterprise-grade security training accessible to businesses of all sizes. Our platform combines advanced AI simulation technology with human-centered education to create a comprehensive security solution.</p>
+          
+          <div class="about-feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Industry Leading Protection</h4>
+              <p>Our sophisticated phishing simulation engine tests your organization's resilience against the latest threats.</p>
             </div>
-            <!-- Mobile Menu Button -->
-            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+          </div>
+          
+          <div class="about-feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Adaptive Learning</h4>
+              <p>Personalized training paths that adapt to each employee's security awareness level and role.</p>
+            </div>
+          </div>
+          
+          <div class="about-feature">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <h4>Comprehensive Analytics</h4>
+              <p>Detailed reporting and insights to track your organization's security posture over time.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-title">
+        <h2>Core Features</h2>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-fish"></i>
+          </div>
+          <h3>Advanced Phishing Simulations</h3>
+          <p>Create sophisticated, targeted phishing campaigns that mimic real-world threats to test your employees' vigilance.</p>
+        </div>
         
-            <!-- Sidebar Navigation (Only for Mobile) -->
-            <div id="sidebar" class="sidebar">
-                <button class="close-btn" onclick="toggleMenu()">✖</button>
-                <nav>
-                    <a href="#home">HOME</a>
-                    <a href="#pricing">PRICING</a>
-                    <a href="#company">COMPANY</a>
-                </nav>
-            </div>
-        </header>
-        <script src="script.js"></script>
-    </body>
-    <div class="header-space-index"></div>
-<div id="home" class="hero-section-index">
-    <div class="hero-content-index">
-        <h1 class="gradient-heading">Protect Your Business From Cyber Threats</h1>
-        <p class="hero-subtext">
-            Launch a real-world phishing test in minutes. Identify risks, train employees, and protect your business from cyber threats.
-        </p>
-        <input type="email" id="testerEmail" class="input-field" placeholder="Your Email (youremail@mail.com)" required>
-        <input type="email" id="testEmail" class="input-field" placeholder="Email to Test (test@mail.com)" required>
-        <button class="cta-button-index free-test-button" onclick="startTest()">Start Your Free Test</button>
-    </div>
-    <div class="hero-image-container">
-        <img src="images/v1_71.png" alt="Shield Logo" class="shield-image-index">
-    </div>
-</div>
-
-
-    <div id="pricing" class="section">
-        <h2>Pricing</h2>
-        <div class="pricing">
-            <div class="plan">
-                <h3>Basic</h3>
-                <p>$99/MONTH</p>
-                <p>UP TO 150 TESTS</p>
-                <button class="cta-button-index" onclick="window.location.href='subscribe.html'">Subscribe</button>
-            </div>
-            <div class="plan">
-                <h3>Premium</h3>
-                <p>$199/MONTH</p>
-                <p>UP TO 500 TESTS</p>
-                <button class="cta-button-index" onclick="window.location.href='subscribe.html'">Subscribe</button>
-            </div>
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Comprehensive Training</h3>
+          <p>Interactive courses and micro-learning modules designed to build security awareness in an engaging way.</p>
         </div>
-    </div>
-    <div id="company" class="company-container">
-        <section class="company-section">
-            <div class="company-content">
-                <div class="company-text">
-                    <h2 class="company-heading">We Redefine Cybersecurity Awareness</h2>
-                    <p class="company-subtext">
-                        At Ozran, we empower businesses with cutting-edge security solutions to prevent cyber threats.
-                        Through real-world phishing simulations and AI-powered threat analytics, we make cybersecurity 
-                        training seamless, impactful, and effective.
-                    </p>
-                    <ul class="company-list">
-                        <li>✅ AI-driven phishing detection</li>
-                        <li>✅ Enterprise-grade security training</li>
-                        <li>✅ Real-time risk assessment & analytics</li>
-                        <li>✅ Seamless integration with your systems</li>
-                    </ul>
-                    <a href="#learn-more" class="company-cta">Learn More</a>
-                </div>
-                <div class="company-image">
-                    <img src="images/v1_71.png" alt="Next-Gen Cybersecurity">
-                </div>
+        
+        <div class="feature-card animated">
+            <div class="feature-icon">
+              <i class="fas fa-graduation-cap"></i>
             </div>
-        </section>
-    
-        <!-- Features Section -->
-        <section class="features-section">
-            <div class="feature-item">
-                <h3>🔐 Enterprise-Grade Security</h3>
-                <p>State-of-the-art encryption and security protocols to safeguard your business.</p>
-            </div>
-            <div class="feature-item">
-                <h3>📧 Phishing Simulations</h3>
-                <p>Simulate real-world phishing attacks and train employees in a risk-free environment.</p>
-            </div>
-            <div class="feature-item">
-                <h3>🎓 AI-Powered Training</h3>
-                <p>Personalized, adaptive learning paths for every employee, powered by machine learning.</p>
-            </div>
-            <div class="feature-item">
-                <h3>📊 Intelligent Risk Insights</h3>
-                <p>Gain actionable security insights with real-time analytics & automated reporting.</p>
-            </div>
-        </section>
-    </div>
-    
-    
-    <script>
-        async function startTest() {
-            const testerEmail = document.getElementById("testerEmail").value.trim();
-            const testEmail = document.getElementById("testEmail").value.trim();
-    
-            if (!testerEmail || !testEmail) {
-                alert("Please enter both emails.");
-                return;
-            }
-    
-            try {
-                const token = localStorage.getItem("token"); // Get JWT token
-                if (!token) {
-                    alert("You must be logged in to send a test email.");
-                    return;
-                }
-    
-                const response = await fetch("/api/send-test-email", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ testerEmail, testEmail })
-                });
-    
-                const data = await response.json();
-                if (response.ok) {
-                    alert("Test email sent successfully!");
-                } else {
-                    alert("Error: " + data.error);
-                }
-            } catch (error) {
-                console.error("Error sending email:", error);
-                alert("Failed to send email.");
-            }
-        }
-    </script>
-    <footer class="footer">
-        <div class="footer-left">
-            <img src="images/v1_71.png" alt="Forti-Phish Logo" class="footer-logo">
-            <p>© 2025 ozran.net. All Rights Reserved.</p>
+            <h3>AI-Powered Insights</h3>
+            <p>Identify high-risk departments and individuals to focus your security training efforts where they're needed most.</p>
         </div>
-        <div class="footer-right">
-            <a href="terms">Terms of Service</a> | <a href="privacy">Privacy Policy</a>
+
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <h3>Risk Analytics</h3>
+          <p>Identify high-risk departments and individuals to focus your security training efforts where they're needed most.</p>
         </div>
-    </footer>
-    <script>
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        
+        <div class="feature-card animated">
+          <div class="feature-icon">
+            <i class="fas fa-robot"></i>
+          </div>
+          <h3>AI-Powered Insights</h3>
+          <p>Our machine learning algorithms analyze employee behavior to predict vulnerabilities before they become problems.</p>
+        </div>
+        <div class="feature-card animated">
+        <div class="feature-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h3>Zero Trust Policies</h3>
+          <p>Implement zero-trust access controls and ensure your employees follow security best practices at every layer.</p>
+        </div>
+            </div>
 
-        const particles = [];
-        const particleCount = 150;
+ 
+  </section>
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() * 0.5 - 0.25);
-                this.speedY = (Math.random() * 0.5 - 0.25);
-                
-            }
-            update(mouse) {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                this.num = 15;
-                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-                
-                let dx = mouse.x - this.x;
-                let dy = mouse.y - this.y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-                if (distance < 100) {
-                    if (dx > 0)
-                    {
-                        this.x += (this.num-dx) * 0.02;
-                        
-                    }
-                    else 
-                    {
-                        this.x -= (dx-this.num) * 0.02;
-                    }
-                    if (dy > 0)
-                    {
-                        this.y += (this.num-dy) * 0.02;
-                        
-                    }
-                    else 
-                    {
-                        this.y -= (dy-this.num) * 0.02;
-                    }
-                }
-                
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
+  <!-- Pricing Section -->
+  <section id="pricing" class="pricing">
+    <div class="container">
+      <div class="section-title">
+        <h2>Pricing Plans</h2>
+      </div>
+      <div class="pricing-cards">
+        <div class="pricing-card animated">
+          <h3>Starter</h3>
+          <div class="pricing-amount">
+            <span class="price">$49</span>
+            <span class="period">/mo</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature"><i class="fas fa-check"></i> Up to 50 users</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Basic simulations</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Basic analytics</div>
+          </div>
+          <div class="pricing-cta">
+            <a href="#" class="btn btn-primary" onclick="choosePlan('Starter')">Choose Plan</a>
+          </div>          
+        </div>
+      
+        <div class="pricing-card popular animated">
+          <h3>Professional</h3>
+          <div class="pricing-amount">
+            <span class="price">$99</span>
+            <span class="period">/mo</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature"><i class="fas fa-check"></i> Up to 200 users</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> AI-powered simulations</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Advanced analytics & reporting</div>
+          </div>
+          <div class="pricing-cta">
+            <a href="#" class="btn btn-primary" onclick="choosePlan('Professional')">Choose Plan</a>
+          </div>          
+        </div>
+      
+        <div class="pricing-card animated">
+          <h3>Enterprise</h3>
+          <div class="pricing-amount">
+            <span class="price">Custom</span>
+          </div>
+          <div class="pricing-features">
+            <div class="pricing-feature"><i class="fas fa-check"></i> Unlimited users</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Custom integrations</div>
+            <div class="pricing-feature"><i class="fas fa-check"></i> Dedicated account manager</div>
+          </div>
+          <div class="pricing-cta">
+            <a href="#" class="btn btn-primary" onclick="choosePlan('Enterprise')">Contact Sales</a>
+          </div>          
+        </div>
+      </div>
+      
+      </div>
+    </div>
+  </section>
 
-        function initParticles() {
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            }
-        }
+  <!-- CTA Section -->
+  <section id="contact" class="cta">
+    <div class="container">
+      <h2>Ready to Secure Your Business?</h2>
+      <p>Get started with Ozran today and elevate your organization’s cybersecurity awareness to the next level.</p>
+      <form class="cta-form">
+        <input type="email" class="cta-input" placeholder="Enter your email" required>
+        <button type="submit" class="cta-btn">Get Started</button>
+      </form>
+    </div>
+  </section>
 
-        function animateParticles(mouse) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(particle => {
-                particle.update(mouse);
-                particle.draw();
-            });
-            requestAnimationFrame(() => animateParticles(mouse));
-        }
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-container">
+      <div class="footer-about">
+        <h3>Ozran</h3>
+        <p>Ozran is a cybersecurity awareness platform offering phishing simulations, adaptive training, and AI-powered insights to secure your workforce.</p>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
 
-        let mouse = { x: undefined, y: undefined };
-        window.addEventListener('mousemove', (event) => {
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
+      <div class="footer-links">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li><a href="#about">About Us</a></li>
+        </ul>
+      </div>
 
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+      <div class="footer-links">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Security Tips</a></li>
+        </ul>
+      </div>
 
-        initParticles();
-        animateParticles(mouse);
-    </script>
-    <script>
-        // Simulating fetching user data (Replace with actual backend logic)
-        const user = localStorage.getItem("username"); // Get stored username
-    
-        if (user) {
-            // User is logged in: Show profile, hide register button
-            document.getElementById("register-btn").style.display = "none";
-            document.getElementById("user-profile").style.display = "flex";
-            document.getElementById("username").innerText = `Hello, ${user}`;
-        } else {
-            // User is NOT logged in: Show register button, hide profile
-            document.getElementById("register-btn").style.display = "inline-block";
-            document.getElementById("user-profile").style.display = "none";
-        }
-    </script>
-    <script>
-        document.querySelector('.menu-toggle').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('active');
-        });
-    </script>
-    
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Security Compliance</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2025 Ozran. All rights reserved.
+    </div>
+  </footer>
+  <script>
+    const isLoggedIn = localStorage.getItem("userLoggedIn") === "true";
+  
+    function handleStartTrial() {
+      if (isLoggedIn) {
+        window.location.href = "dashboard.html";
+      } else {
+        window.location.href = "login.html";
+      }
+    }
+  
+    function handleBookDemo() {
+      if (isLoggedIn) {
+        window.location.href = "dashboard.html"; // or a separate demo.html
+      } else {
+        window.location.href = "login.html";
+      }
+    }
+  </script>  
+
+  <script>
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileNav = document.getElementById('mobileNav');
+    const mobileNavClose = document.getElementById('mobileNavClose');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileNav.classList.add('active');
+    });
+
+    mobileNavClose.addEventListener('click', () => {
+      mobileNav.classList.remove('active');
+    });
+  </script>
+  <script>
+    localStorage.setItem("username", "Kai"); // for dev
+    function choosePlan(plan) {
+      localStorage.setItem("selectedPlan", plan);
+      window.location.href = `billing.html?plan=${plan}`;
+    }
+  </script>
+<script>
+  const username = localStorage.getItem("username");
+
+  const authBtn = document.getElementById("auth-btn");
+  if (authBtn) {
+    if (isLoggedIn && username) {
+      authBtn.textContent = username;
+      authBtn.onclick = () => window.location.href = "dashboard.html";
+    } else {
+      authBtn.textContent = "Log In";
+      authBtn.onclick = () => window.location.href = "login.html";
+    }
+  }
+
+  function handleStartTrial() {
+    if (isLoggedIn) {
+      window.location.href = "dashboard.html";
+    } else {
+      window.location.href = "login.html";
+    }
+  }
+
+  function handleBookDemo() {
+    if (isLoggedIn) {
+      window.location.href = "dashboard.html";
+    } else {
+      window.location.href = "login.html";
+    }
+  }
+</script>
+
 </body>
 </html>
