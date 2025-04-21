@@ -354,8 +354,8 @@
     });
   </script>
   <script>
-    localStorage.setItem("username", "Kai"); // for dev
-    function choosePlan(plan) {
+localStorage.setItem("username", response.username);
+function choosePlan(plan) {
       localStorage.setItem("selectedPlan", plan);
       window.location.href = `billing.html?plan=${plan}`;
     }
