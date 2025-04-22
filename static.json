@@ -1,6 +1,7 @@
 {
+  "clean_urls": true,
   "redirects": [
-    { "source": "/*", "destination": "https://ozran.net/:splat", "type": 301 },
+    { "source": "/", "destination": "/index.html", "type": 200 },
     { "source": "/subscribe", "destination": "/subscribe.html", "type": 200 },
     { "source": "/account", "destination": "/account.html", "type": 200 },
     { "source": "/home", "destination": "/index.html", "type": 200 },
