@@ -354,7 +354,6 @@
     });
   </script>
   <script>
-localStorage.setItem("username", response.username);
 function choosePlan(plan) {
       localStorage.setItem("selectedPlan", plan);
       window.location.href = `billing.html?plan=${plan}`;
@@ -388,6 +387,18 @@ function choosePlan(plan) {
     } else {
       window.location.href = "login.html";
     }
+  }
+</script>
+<script>
+  function logout() {
+    // Clear localStorage login state
+    localStorage.removeItem("userLoggedIn");
+    localStorage.removeItem("token");
+    localStorage.removeItem("username");
+    localStorage.removeItem("selectedPlan");
+
+    // Redirect to home page
+    window.location.href = "index.html";
   }
 </script>
 
